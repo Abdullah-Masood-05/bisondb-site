@@ -77,6 +77,36 @@ export default withMermaid(
       },
       search: { provider: 'local' },
     },
-    mermaid: { theme: 'dark' },
+    // Warm-neutral diagram surfaces; amber reserved for emphasis only.
+    mermaid: {
+      theme: 'base',
+      themeVariables: {
+        darkMode: true,
+        background: '#1a1714',
+        primaryColor: '#242019', // node fill = bg-soft
+        primaryBorderColor: '#443b30',
+        primaryTextColor: '#ede6db',
+        secondaryColor: '#2a241d',
+        tertiaryColor: '#15120f',
+        lineColor: '#847a6c',
+        textColor: '#b3a899',
+        clusterBkg: '#15120f',
+        clusterBorder: '#3a332a',
+        edgeLabelBackground: '#242019',
+        // sequence diagrams
+        actorBkg: '#242019',
+        actorBorder: '#443b30',
+        actorTextColor: '#ede6db',
+        signalColor: '#847a6c',
+        signalTextColor: '#b3a899',
+        noteBkgColor: '#2a241d',
+        noteBorderColor: '#c97f22', // amber emphasis: notes only
+        noteTextColor: '#ede6db',
+        labelBoxBkgColor: '#242019',
+        labelBoxBorderColor: '#443b30',
+        labelTextColor: '#ede6db',
+        loopTextColor: '#b3a899',
+      },
+    },
   }),
 );

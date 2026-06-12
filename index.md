@@ -20,13 +20,19 @@ hero:
       link: https://github.com/Abdullah-Masood-05/Bisondb
 
 features:
-  - title: A from-scratch B+Tree
+  - icon:
+      src: /icons/btree.svg
+    title: A from-scratch B+Tree
     details: 4 KB slotted pages, order-preserving key encoding, splits, lazy deletion, and crash recovery — no std::map, no storage libraries. Verified by 100k-operation model fuzzing against an oracle.
     link: /architecture/btree
-  - title: Crash-safe storage
+  - icon:
+      src: /icons/shield.svg
+    title: Crash-safe storage
     details: An append-only record log is the single source of truth. Indexes are disposable caches with a dirty flag — any unclean shutdown rebuilds them from the log.
     link: /architecture/storage
-  - title: Real BSON compatibility
+  - icon:
+      src: /icons/braces.svg
+    title: Real BSON compatibility
     details: The codec passes the official MongoDB BSON corpus for all 11 supported types, round-trips mongodump files byte-for-byte, and speaks Extended JSON v2.
     link: /architecture/bson
 ---

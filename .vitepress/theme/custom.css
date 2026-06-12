@@ -1,22 +1,110 @@
-/* BisonDB palette: amber primary on deep plum. */
+/* ── BisonDB theme: warm neutrals everywhere, amber as the ONLY accent. ──
+   No purple/plum surfaces, borders, or text — plum survives solely inside
+   the logo artwork and the hero's faint backdrop glow. */
+
+/* ── Light theme (VitePress :root) ── */
 :root {
-  --vp-c-brand-1: #f3b14e;
-  --vp-c-brand-2: #e69a3c;
-  --vp-c-brand-3: #d98a2b;
-  --vp-c-brand-soft: rgba(243, 177, 78, 0.16);
+  --vp-c-bg: #faf7f1; /* warm paper */
+  --vp-c-bg-alt: #f4efe6;
+  --vp-c-bg-soft: #f1ece2;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-divider: #e4dcce;
+  --vp-c-border: #d6ccba;
+  --vp-c-text-1: #25201a;
+  --vp-c-text-2: #5c5347;
+  --vp-c-text-3: #847a6c;
+
+  /* #F3B14E fails contrast on light backgrounds — darkened amber for any
+     text/link use in light mode. */
+  --vp-c-brand-1: #b45309;
+  --vp-c-brand-2: #92400e;
+  --vp-c-brand-3: #7c3a0c;
+  --vp-c-brand-soft: rgba(180, 83, 9, 0.12);
+
+  /* Buttons keep the bright amber fill with dark text in both themes. */
+  --vp-button-brand-bg: #f3b14e;
+  --vp-button-brand-text: #2a1c07;
+  --vp-button-brand-border: transparent;
+  --vp-button-brand-hover-bg: #e89b33;
+  --vp-button-brand-hover-text: #2a1c07;
+  --vp-button-brand-active-bg: #c97f22;
+  --vp-button-brand-active-text: #2a1c07;
+
+  --vp-code-block-bg: #f1ece2;
+  --vp-code-color: #92400e;
+  --vp-code-bg: #ece5d6;
+
+  /* Hero wordmark: single-hue amber gradient (dark enough on paper). */
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #b79cd8 10%, #f3b14e 90%);
+  --vp-home-hero-name-background: linear-gradient(120deg, #c97f22 10%, #92400e 90%);
+  /* Faint plum glow behind the hero image — the one sanctioned plum. */
+  --vp-home-hero-image-background-image: radial-gradient(
+    circle,
+    rgba(46, 35, 71, 0.25) 0%,
+    transparent 70%
+  );
+  --vp-home-hero-image-filter: blur(40px);
 }
 
+/* ── Dark theme (default) ── */
 .dark {
-  --vp-c-bg-alt: #1d1730;
-  --vp-c-bg-soft: #2e2347;
+  --vp-c-bg: #1a1714; /* warm near-black */
+  --vp-c-bg-alt: #15120f; /* sidebar / nav */
+  --vp-c-bg-soft: #242019; /* cards, tabs, custom blocks */
+  --vp-c-bg-elv: #2a241d; /* elevated / hover */
+  --vp-c-divider: #3a332a;
+  --vp-c-border: #443b30;
+  --vp-c-text-1: #ede6db; /* 14.5:1 on bg */
+  --vp-c-text-2: #b3a899; /*  7.6:1 on bg */
+  --vp-c-text-3: #847a6c; /*  4.2:1 — large text / captions only */
+
+  --vp-c-brand-1: #f3b14e; /* 9.5:1 on bg */
+  --vp-c-brand-2: #e89b33;
+  --vp-c-brand-3: #c97f22;
+  --vp-c-brand-soft: rgba(243, 177, 78, 0.14);
+
+  --vp-code-block-bg: #14110e;
+  --vp-code-color: #f0c685; /* 10.1:1 on bg-soft */
+  --vp-code-bg: #242019;
+
+  --vp-home-hero-name-background: linear-gradient(120deg, #fbd98a 10%, #e89b33 90%);
+  --vp-home-hero-image-background-image: radial-gradient(
+    circle,
+    rgba(46, 35, 71, 0.35) 0%,
+    transparent 70%
+  );
+  --vp-home-hero-image-filter: blur(48px);
 }
 
-/* Terminal-style code block used on the landing page. */
+/* Tagline sits in secondary text, not accent. */
+.VPHero .tagline {
+  color: var(--vp-c-text-2);
+}
+
+/* Feature cards: neutral soft surface, hairline border, no colored fills. */
+.VPFeature {
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
+}
+.VPFeature:hover {
+  background: var(--vp-c-bg-elv);
+}
+.VPFeature .title {
+  color: var(--vp-c-text-1);
+}
+.VPFeature .details {
+  color: var(--vp-c-text-2);
+}
+.VPFeature .VPImage {
+  /* amber line-icons supplied as currentColor SVGs */
+  color: var(--vp-c-brand-1);
+}
+
+/* Terminal-style demo block: code-block surface; the prompt/gradient colors
+   inside are content (the shell's real palette), not UI chrome. */
 .bisondb-terminal {
-  background: #16121f;
-  border: 1px solid #2e2347;
+  background: var(--vp-code-block-bg);
+  border: 1px solid var(--vp-c-border);
   border-radius: 8px;
   padding: 16px 20px;
   font-family: var(--vp-font-family-mono);
@@ -28,8 +116,15 @@
   color: #f3b14e;
 }
 .bisondb-terminal .dim {
-  color: #8b85a0;
+  color: #847a6c;
 }
 .bisondb-terminal .out {
-  color: #cfc9e0;
+  color: var(--vp-c-text-2);
+}
+:root:not(.dark) .bisondb-terminal {
+  /* keep the terminal dark in light mode — it renders a dark-console session */
+  background: #14110e;
+}
+:root:not(.dark) .bisondb-terminal .out {
+  color: #b3a899;
 }

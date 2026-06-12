@@ -137,13 +137,15 @@ onMounted(async () => {
   font-size: 0.9em;
   color: var(--vp-c-text-2);
 }
+/* Secondary assets: soft neutral surface with a hairline border. */
 .asset {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   padding: 8px 12px;
   margin-bottom: 8px;
-  border: 1px solid var(--vp-c-divider);
+  border: 1px solid var(--vp-c-border);
+  background: var(--vp-c-bg-soft);
   border-radius: 8px;
   font-size: 0.88em;
   text-decoration: none;
@@ -151,12 +153,23 @@ onMounted(async () => {
   word-break: break-all;
 }
 .asset:hover {
-  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-bg-elv);
+  border-color: var(--vp-c-brand-2);
 }
+/* Primary (OS-detected) asset: solid amber with dark text — amber is too
+   light to carry white text. */
 .asset.primary {
-  border-color: var(--vp-c-brand-1);
-  background: var(--vp-c-brand-soft);
+  background: #f3b14e;
+  border-color: transparent;
+  color: #2a1c07;
   font-weight: 600;
+}
+.asset.primary:hover {
+  background: #e89b33;
+  color: #2a1c07;
+}
+.asset.primary .size {
+  color: #5c4413;
 }
 .size {
   color: var(--vp-c-text-2);

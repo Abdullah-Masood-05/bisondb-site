@@ -25,8 +25,10 @@ onMounted(async () => {
     Chart.register(BarController, BarElement, CategoryScale, LinearScale, LogarithmicScale, Tooltip, Legend);
     const data: BenchData = await resp.json();
 
+    // Amber for the primary series; neutral grays for comparison series
+    // (e.g. "full scan") — the accent must mean something.
     const amber = '#f3b14e';
-    const plum = '#8b6fc0';
+    const gray = '#847a6c';
 
     let labels: string[] = [];
     let values: number[] = [];
@@ -55,7 +57,7 @@ onMounted(async () => {
           {
             label: title,
             data: values,
-            backgroundColor: labels.map((_, i) => (i % 2 === 0 ? amber : plum)),
+            backgroundColor: labels.map((_, i) => (i % 2 === 0 ? amber : gray)),
             borderRadius: 4,
           },
         ],
@@ -66,10 +68,10 @@ onMounted(async () => {
         scales: {
           y: {
             type: logScale ? 'logarithmic' : 'linear',
-            ticks: { color: '#8b85a0' },
-            grid: { color: 'rgba(139,133,160,0.15)' },
+            ticks: { color: '#b3a899' },
+            grid: { color: 'rgba(132,122,108,0.18)' },
           },
-          x: { ticks: { color: '#8b85a0' }, grid: { display: false } },
+          x: { ticks: { color: '#b3a899' }, grid: { display: false } },
         },
       },
     });
