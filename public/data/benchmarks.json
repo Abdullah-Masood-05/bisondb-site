@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "v1.0.0",
+    "hardware": "PLACEHOLDER - regenerate with bisonbench --json after a release (8-core desktop, NVMe SSD, Windows 11)",
+    "date": "2026-06-13",
+    "note": "Placeholder values with realistic shape; replace with real bisonbench output."
+  },
+  "insertThroughput": [
+    { "label": "insert (fsync per batch)", "docsPerSec": 48000 },
+    { "label": "insert (fsync per doc)", "docsPerSec": 1900 }
+  ],
+  "queryLatency": [
+    { "label": "indexed range (1k of 1M docs)", "ms": 4.2 },
+    { "label": "full scan (1M docs)", "ms": 1350 }
+  ],
+  "docsExamined": [
+    { "label": "indexed range", "count": 1015 },
+    { "label": "full scan", "count": 29470 }
+  ]
+}

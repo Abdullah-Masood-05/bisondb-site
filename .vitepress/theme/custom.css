@@ -1,0 +1,35 @@
+/* BisonDB palette: amber primary on deep plum. */
+:root {
+  --vp-c-brand-1: #f3b14e;
+  --vp-c-brand-2: #e69a3c;
+  --vp-c-brand-3: #d98a2b;
+  --vp-c-brand-soft: rgba(243, 177, 78, 0.16);
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #b79cd8 10%, #f3b14e 90%);
+}
+
+.dark {
+  --vp-c-bg-alt: #1d1730;
+  --vp-c-bg-soft: #2e2347;
+}
+
+/* Terminal-style code block used on the landing page. */
+.bisondb-terminal {
+  background: #16121f;
+  border: 1px solid #2e2347;
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-family: var(--vp-font-family-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: auto;
+}
+.bisondb-terminal .prompt {
+  color: #f3b14e;
+}
+.bisondb-terminal .dim {
+  color: #8b85a0;
+}
+.bisondb-terminal .out {
+  color: #cfc9e0;
+}
