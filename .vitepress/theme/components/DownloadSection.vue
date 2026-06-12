@@ -120,6 +120,8 @@ onMounted(async () => {
 }
 .dl-card {
   border: 1px solid var(--vp-c-divider);
+  /* the one sanctioned thin red rule on this page */
+  border-top: 2px solid var(--vp-c-brand-1);
   border-radius: 12px;
   padding: 20px;
   background: var(--vp-c-bg-soft);
@@ -129,7 +131,7 @@ onMounted(async () => {
 }
 .version {
   font-size: 0.8em;
-  color: var(--vp-c-brand-1);
+  color: var(--vp-c-text-2);
   font-weight: 600;
 }
 .subtitle {
@@ -137,7 +139,7 @@ onMounted(async () => {
   font-size: 0.9em;
   color: var(--vp-c-text-2);
 }
-/* Secondary assets: soft neutral surface with a hairline border. */
+/* Secondary assets: neutral soft surface with a hairline border. */
 .asset {
   display: flex;
   justify-content: space-between;
@@ -154,20 +156,24 @@ onMounted(async () => {
 }
 .asset:hover {
   background: var(--vp-c-bg-elv);
-  border-color: var(--vp-c-brand-2);
+  border-color: var(--vp-c-text-3);
 }
-
+/* Primary (OS-detected) asset: INVERTED, never red. */
 .asset.primary {
-  background: #d5532f;
+  background: var(--vp-c-text-1);
   border-color: transparent;
-  color: #fff3ee;
+  color: var(--vp-c-bg);
   font-weight: 600;
 }
 .asset.primary:hover {
-  background: #c24a28;
-  color: #fff3ee;
+  opacity: 0.92;
+  color: var(--vp-c-bg);
 }
 .asset.primary .size {
+  color: var(--vp-c-bg);
+  opacity: 0.65;
+}
+.size {
   color: #ffd9cc;
 }
 .size {

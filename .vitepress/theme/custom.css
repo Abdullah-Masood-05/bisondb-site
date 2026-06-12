@@ -1,111 +1,129 @@
-/* ── BisonDB theme: warm iron neutrals, rust/clay-red as the ONLY accent.
-   Canyon rock, not alarm red. No colored surfaces anywhere; the amber bison
-   icon stays untouched as the sole full-palette element. */
+/* ── BisonDB theme: near-monochrome, crimson as a signature only.
+   All neutrals are PURE gray (R=G=B ±2). Red never appears as a fill that
+   text sits on — links, icons, thin rules, and the wordmark only. The amber
+   bison icon is the single colorful object by design. */
 
-/* ── Light theme (warm bone/clay paper) ── */
+/* ── Light theme ── */
 :root {
-  --vp-c-bg: #faf6f3;
-  --vp-c-bg-alt: #f5efe9;
-  --vp-c-bg-soft: #f2eae5;
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #fafafa;
+  --vp-c-bg-soft: #f4f4f5;
   --vp-c-bg-elv: #ffffff;
-  --vp-c-divider: #e6d9d1;
-  --vp-c-border: #d8c8bd;
-  --vp-c-text-1: #271f1b;
-  --vp-c-text-2: #5e5048;
-  --vp-c-text-3: #857770;
+  --vp-c-divider: #e4e4e7;
+  --vp-c-border: #d4d4d8;
+  --vp-c-text-1: #18181b;
+  --vp-c-text-2: #52525b;
+  --vp-c-text-3: #8e8e96;
 
-  /* #E2654B fails contrast on paper — darkened rust for all light-mode
-     text/link use. */
-  --vp-c-brand-1: #b23a1c;
-  --vp-c-brand-2: #963016;
-  --vp-c-brand-3: #7d2911;
-  --vp-c-brand-soft: rgba(178, 58, 28, 0.12);
+  --vp-c-brand-1: #ce2c31; /* crimson — links/active nav only */
+  --vp-c-brand-2: #b22327; /* hover */
+  --vp-c-brand-3: #9b1e22;
+  --vp-c-brand-soft: rgba(206, 44, 49, 0.1);
 
-  /* Buttons: same deep-rust fill in both themes; it carries light text. */
-  --vp-button-brand-bg: #d5532f;
-  --vp-button-brand-text: #fff3ee;
+  /* Primary buttons are INVERTED, never red. */
+  --vp-button-brand-bg: #18181b;
+  --vp-button-brand-text: #ffffff;
   --vp-button-brand-border: transparent;
-  --vp-button-brand-hover-bg: #c24a28;
-  --vp-button-brand-hover-text: #fff3ee;
-  --vp-button-brand-active-bg: #b8431f;
-  --vp-button-brand-active-text: #fff3ee;
+  --vp-button-brand-hover-bg: #2d2d31;
+  --vp-button-brand-hover-text: #ffffff;
+  --vp-button-brand-active-bg: #000000;
+  --vp-button-brand-active-text: #ffffff;
+  --vp-button-alt-bg: var(--vp-c-bg-soft);
+  --vp-button-alt-text: var(--vp-c-text-1);
+  --vp-button-alt-border: var(--vp-c-border);
+  --vp-button-alt-hover-bg: var(--vp-c-bg-elv);
+  --vp-button-alt-hover-border: var(--vp-c-text-3);
 
-  --vp-code-block-bg: #f2eae5;
-  --vp-code-color: #963016;
-  --vp-code-bg: #ecdfd7;
+  --vp-code-block-bg: #f4f4f5;
+  --vp-code-color: var(--vp-c-text-1); /* inline code: no accent tint */
+  --vp-code-bg: #ececee;
 
-  /* Hero wordmark: single-hue rust gradient, dark enough on paper. */
+  /* Hero wordmark: two solid tones via hard-stop — "Bison" crimson, "DB"
+     text-1. (A hard-stop two-tone, not a gradient.) */
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #b23a1c 10%, #963016 90%);
-  /* Faint warm glow behind the (amber) icon. */
-  --vp-home-hero-image-background-image: radial-gradient(
-    circle,
-    rgba(226, 101, 75, 0.1) 0%,
-    transparent 70%
+  --vp-home-hero-name-background: linear-gradient(
+    90deg,
+    #ce2c31 0%,
+    #ce2c31 66%,
+    #18181b 66%
   );
-  --vp-home-hero-image-filter: blur(40px);
+  /* No glow behind the icon. */
+  --vp-home-hero-image-background-image: none;
+  --vp-home-hero-image-filter: none;
 }
 
-/* ── Dark theme (default) — iron-dark neutrals with a red-brown undertone ── */
+/* ── Dark theme (default) ── */
 .dark {
-  --vp-c-bg: #161210;
-  --vp-c-bg-alt: #120f0d; /* sidebar / nav */
-  --vp-c-bg-soft: #221b18; /* cards, tabs, custom blocks */
-  --vp-c-bg-elv: #2a211d; /* hover / elevated */
-  --vp-c-divider: #382d28;
-  --vp-c-border: #453731;
-  --vp-c-text-1: #efe7e2; /* 15.4:1 on bg */
-  --vp-c-text-2: #b5a79f; /*  8.0:1 on bg */
-  --vp-c-text-3: #857770; /*  4.3:1 — captions / large text only */
+  --vp-c-bg: #111113;
+  --vp-c-bg-alt: #0d0d0f; /* sidebar / nav */
+  --vp-c-bg-soft: #1b1b1e; /* cards, tabs, custom blocks */
+  --vp-c-bg-elv: #232327; /* hover / elevated */
+  --vp-c-divider: #2a2a2e;
+  --vp-c-border: #35353a;
+  --vp-c-text-1: #f2f2f2; /* 16.8:1 on bg */
+  --vp-c-text-2: #a6a6ad; /*  7.8:1 on bg */
+  --vp-c-text-3: #76767e; /*  4.2:1 — captions / large only */
 
-  --vp-c-brand-1: #e2654b; /* terracotta links — 5.5:1 on bg */
-  --vp-c-brand-2: #d5532f;
-  --vp-c-brand-3: #b8431f;
-  --vp-c-brand-soft: rgba(226, 101, 75, 0.14);
+  --vp-c-brand-1: #f2555a; /* crimson links — 5.6:1 on bg */
+  --vp-c-brand-2: #ff6b6f;
+  --vp-c-brand-3: #d94348;
+  --vp-c-brand-soft: rgba(242, 85, 90, 0.12);
 
-  --vp-code-block-bg: #110e0c;
-  --vp-code-color: #efa28d; /* 8.3:1 on bg-soft */
-  --vp-code-bg: #221b18;
+  --vp-button-brand-bg: #f2f2f2;
+  --vp-button-brand-text: #111113;
+  --vp-button-brand-hover-bg: #ffffff;
+  --vp-button-brand-hover-text: #111113;
+  --vp-button-brand-active-bg: #e2e2e2;
+  --vp-button-brand-active-text: #111113;
 
-  --vp-home-hero-name-background: linear-gradient(120deg, #f08a6b 10%, #c9491f 90%);
-  --vp-home-hero-image-background-image: radial-gradient(
-    circle,
-    rgba(226, 101, 75, 0.1) 0%,
-    transparent 70%
+  --vp-code-block-bg: #0c0c0e;
+  --vp-code-color: var(--vp-c-text-1);
+  --vp-code-bg: #1b1b1e;
+
+  --vp-home-hero-name-background: linear-gradient(
+    90deg,
+    #f2555a 0%,
+    #f2555a 66%,
+    #f2f2f2 66%
   );
-  --vp-home-hero-image-filter: blur(48px);
 }
 
-/* ── Danger must never read as "link". Brand rust is warm orange-red; danger
-   is a cooler pink-red on its own tinted block with a distinct icon. ── */
-:root {
-  --vp-c-danger-1: #c4302b;
-  --vp-c-danger-2: #a82420;
-  --vp-c-danger-soft: rgba(255, 99, 99, 0.12);
+/* Links: accent text, underline appears on hover. */
+.vp-doc a {
+  text-decoration: none;
 }
-.dark {
-  --vp-c-danger-1: #ff8f8f;
-  --vp-c-danger-2: #ff7a7a;
-  --vp-c-danger-soft: rgba(255, 99, 99, 0.12);
+.vp-doc a:hover {
+  text-decoration: underline;
 }
-.custom-block.danger {
-  background: var(--vp-c-danger-soft);
-  border-color: var(--vp-c-danger-1);
-}
-.custom-block.danger .custom-block-title::before {
-  content: '⛔ ';
-}
-.custom-block.tip .custom-block-title::before {
-  content: '◆ ';
+
+/* Sidebar active indicator: thin crimson bar — one of red's few homes. */
+.VPSidebarItem.is-active > .item > .link > .text {
   color: var(--vp-c-brand-1);
 }
+.VPSidebarItem.level-0.is-active > .item {
+  border-left: 2px solid var(--vp-c-brand-1);
+  padding-left: 8px;
+  margin-left: -10px;
+}
 
-/* Tagline sits in secondary text, not accent. */
+/* Danger blocks differentiate by FORM, not hue: icon, bold label, left bar. */
+.custom-block.danger {
+  border-left: 3px solid var(--vp-c-danger-1);
+}
+.custom-block.danger .custom-block-title::before {
+  content: '⚠ ';
+}
+.custom-block.danger .custom-block-title {
+  font-weight: 700;
+}
+
+/* Tagline in secondary text. */
 .VPHero .tagline {
   color: var(--vp-c-text-2);
 }
 
-/* Feature cards: neutral soft surface, hairline border, no colored fills. */
+/* Feature cards: pure-neutral surfaces, hairline border; the crimson icons
+   are the only color. */
 .VPFeature {
   background: var(--vp-c-bg-soft);
   border: 1px solid var(--vp-c-border);
@@ -120,10 +138,9 @@
   color: var(--vp-c-text-2);
 }
 
-/* Terminal-style demo block: code-block surface; the colors inside are the
-   shell's real output palette (content, not UI chrome). */
+/* Terminal demo block: pure-dark console in both themes (it is content). */
 .bisondb-terminal {
-  background: var(--vp-code-block-bg);
+  background: #0c0c0e;
   border: 1px solid var(--vp-c-border);
   border-radius: 8px;
   padding: 16px 20px;
@@ -133,18 +150,11 @@
   overflow-x: auto;
 }
 .bisondb-terminal .prompt {
-  color: #e2654b;
+  color: #f2555a;
 }
 .bisondb-terminal .dim {
-  color: #857770;
+  color: #76767e;
 }
 .bisondb-terminal .out {
-  color: var(--vp-c-text-2);
-}
-:root:not(.dark) .bisondb-terminal {
-  /* the terminal renders a dark console session even in light mode */
-  background: #110e0c;
-}
-:root:not(.dark) .bisondb-terminal .out {
-  color: #b5a79f;
+  color: #a6a6ad;
 }
