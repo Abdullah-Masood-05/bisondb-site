@@ -156,20 +156,19 @@ onMounted(async () => {
   background: var(--vp-c-bg-elv);
   border-color: var(--vp-c-brand-2);
 }
-/* Primary (OS-detected) asset: solid amber with dark text — amber is too
-   light to carry white text. */
+
 .asset.primary {
-  background: #f3b14e;
+  background: #d5532f;
   border-color: transparent;
-  color: #2a1c07;
+  color: #fff3ee;
   font-weight: 600;
 }
 .asset.primary:hover {
-  background: #e89b33;
-  color: #2a1c07;
+  background: #c24a28;
+  color: #fff3ee;
 }
 .asset.primary .size {
-  color: #5c4413;
+  color: #ffd9cc;
 }
 .size {
   color: var(--vp-c-text-2);

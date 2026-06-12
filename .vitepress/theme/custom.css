@@ -1,79 +1,103 @@
-/* ── BisonDB theme: warm neutrals everywhere, amber as the ONLY accent. ──
-   No purple/plum surfaces, borders, or text — plum survives solely inside
-   the logo artwork and the hero's faint backdrop glow. */
+/* ── BisonDB theme: warm iron neutrals, rust/clay-red as the ONLY accent.
+   Canyon rock, not alarm red. No colored surfaces anywhere; the amber bison
+   icon stays untouched as the sole full-palette element. */
 
-/* ── Light theme (VitePress :root) ── */
+/* ── Light theme (warm bone/clay paper) ── */
 :root {
-  --vp-c-bg: #faf7f1; /* warm paper */
-  --vp-c-bg-alt: #f4efe6;
-  --vp-c-bg-soft: #f1ece2;
+  --vp-c-bg: #faf6f3;
+  --vp-c-bg-alt: #f5efe9;
+  --vp-c-bg-soft: #f2eae5;
   --vp-c-bg-elv: #ffffff;
-  --vp-c-divider: #e4dcce;
-  --vp-c-border: #d6ccba;
-  --vp-c-text-1: #25201a;
-  --vp-c-text-2: #5c5347;
-  --vp-c-text-3: #847a6c;
+  --vp-c-divider: #e6d9d1;
+  --vp-c-border: #d8c8bd;
+  --vp-c-text-1: #271f1b;
+  --vp-c-text-2: #5e5048;
+  --vp-c-text-3: #857770;
 
-  /* #F3B14E fails contrast on light backgrounds — darkened amber for any
-     text/link use in light mode. */
-  --vp-c-brand-1: #b45309;
-  --vp-c-brand-2: #92400e;
-  --vp-c-brand-3: #7c3a0c;
-  --vp-c-brand-soft: rgba(180, 83, 9, 0.12);
+  /* #E2654B fails contrast on paper — darkened rust for all light-mode
+     text/link use. */
+  --vp-c-brand-1: #b23a1c;
+  --vp-c-brand-2: #963016;
+  --vp-c-brand-3: #7d2911;
+  --vp-c-brand-soft: rgba(178, 58, 28, 0.12);
 
-  /* Buttons keep the bright amber fill with dark text in both themes. */
-  --vp-button-brand-bg: #f3b14e;
-  --vp-button-brand-text: #2a1c07;
+  /* Buttons: same deep-rust fill in both themes; it carries light text. */
+  --vp-button-brand-bg: #d5532f;
+  --vp-button-brand-text: #fff3ee;
   --vp-button-brand-border: transparent;
-  --vp-button-brand-hover-bg: #e89b33;
-  --vp-button-brand-hover-text: #2a1c07;
-  --vp-button-brand-active-bg: #c97f22;
-  --vp-button-brand-active-text: #2a1c07;
+  --vp-button-brand-hover-bg: #c24a28;
+  --vp-button-brand-hover-text: #fff3ee;
+  --vp-button-brand-active-bg: #b8431f;
+  --vp-button-brand-active-text: #fff3ee;
 
-  --vp-code-block-bg: #f1ece2;
-  --vp-code-color: #92400e;
-  --vp-code-bg: #ece5d6;
+  --vp-code-block-bg: #f2eae5;
+  --vp-code-color: #963016;
+  --vp-code-bg: #ecdfd7;
 
-  /* Hero wordmark: single-hue amber gradient (dark enough on paper). */
+  /* Hero wordmark: single-hue rust gradient, dark enough on paper. */
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #c97f22 10%, #92400e 90%);
-  /* Faint plum glow behind the hero image — the one sanctioned plum. */
+  --vp-home-hero-name-background: linear-gradient(120deg, #b23a1c 10%, #963016 90%);
+  /* Faint warm glow behind the (amber) icon. */
   --vp-home-hero-image-background-image: radial-gradient(
     circle,
-    rgba(46, 35, 71, 0.25) 0%,
+    rgba(226, 101, 75, 0.1) 0%,
     transparent 70%
   );
   --vp-home-hero-image-filter: blur(40px);
 }
 
-/* ── Dark theme (default) ── */
+/* ── Dark theme (default) — iron-dark neutrals with a red-brown undertone ── */
 .dark {
-  --vp-c-bg: #1a1714; /* warm near-black */
-  --vp-c-bg-alt: #15120f; /* sidebar / nav */
-  --vp-c-bg-soft: #242019; /* cards, tabs, custom blocks */
-  --vp-c-bg-elv: #2a241d; /* elevated / hover */
-  --vp-c-divider: #3a332a;
-  --vp-c-border: #443b30;
-  --vp-c-text-1: #ede6db; /* 14.5:1 on bg */
-  --vp-c-text-2: #b3a899; /*  7.6:1 on bg */
-  --vp-c-text-3: #847a6c; /*  4.2:1 — large text / captions only */
+  --vp-c-bg: #161210;
+  --vp-c-bg-alt: #120f0d; /* sidebar / nav */
+  --vp-c-bg-soft: #221b18; /* cards, tabs, custom blocks */
+  --vp-c-bg-elv: #2a211d; /* hover / elevated */
+  --vp-c-divider: #382d28;
+  --vp-c-border: #453731;
+  --vp-c-text-1: #efe7e2; /* 15.4:1 on bg */
+  --vp-c-text-2: #b5a79f; /*  8.0:1 on bg */
+  --vp-c-text-3: #857770; /*  4.3:1 — captions / large text only */
 
-  --vp-c-brand-1: #f3b14e; /* 9.5:1 on bg */
-  --vp-c-brand-2: #e89b33;
-  --vp-c-brand-3: #c97f22;
-  --vp-c-brand-soft: rgba(243, 177, 78, 0.14);
+  --vp-c-brand-1: #e2654b; /* terracotta links — 5.5:1 on bg */
+  --vp-c-brand-2: #d5532f;
+  --vp-c-brand-3: #b8431f;
+  --vp-c-brand-soft: rgba(226, 101, 75, 0.14);
 
-  --vp-code-block-bg: #14110e;
-  --vp-code-color: #f0c685; /* 10.1:1 on bg-soft */
-  --vp-code-bg: #242019;
+  --vp-code-block-bg: #110e0c;
+  --vp-code-color: #efa28d; /* 8.3:1 on bg-soft */
+  --vp-code-bg: #221b18;
 
-  --vp-home-hero-name-background: linear-gradient(120deg, #fbd98a 10%, #e89b33 90%);
+  --vp-home-hero-name-background: linear-gradient(120deg, #f08a6b 10%, #c9491f 90%);
   --vp-home-hero-image-background-image: radial-gradient(
     circle,
-    rgba(46, 35, 71, 0.35) 0%,
+    rgba(226, 101, 75, 0.1) 0%,
     transparent 70%
   );
   --vp-home-hero-image-filter: blur(48px);
+}
+
+/* ── Danger must never read as "link". Brand rust is warm orange-red; danger
+   is a cooler pink-red on its own tinted block with a distinct icon. ── */
+:root {
+  --vp-c-danger-1: #c4302b;
+  --vp-c-danger-2: #a82420;
+  --vp-c-danger-soft: rgba(255, 99, 99, 0.12);
+}
+.dark {
+  --vp-c-danger-1: #ff8f8f;
+  --vp-c-danger-2: #ff7a7a;
+  --vp-c-danger-soft: rgba(255, 99, 99, 0.12);
+}
+.custom-block.danger {
+  background: var(--vp-c-danger-soft);
+  border-color: var(--vp-c-danger-1);
+}
+.custom-block.danger .custom-block-title::before {
+  content: '⛔ ';
+}
+.custom-block.tip .custom-block-title::before {
+  content: '◆ ';
+  color: var(--vp-c-brand-1);
 }
 
 /* Tagline sits in secondary text, not accent. */
@@ -95,13 +119,9 @@
 .VPFeature .details {
   color: var(--vp-c-text-2);
 }
-.VPFeature .VPImage {
-  /* amber line-icons supplied as currentColor SVGs */
-  color: var(--vp-c-brand-1);
-}
 
-/* Terminal-style demo block: code-block surface; the prompt/gradient colors
-   inside are content (the shell's real palette), not UI chrome. */
+/* Terminal-style demo block: code-block surface; the colors inside are the
+   shell's real output palette (content, not UI chrome). */
 .bisondb-terminal {
   background: var(--vp-code-block-bg);
   border: 1px solid var(--vp-c-border);
@@ -113,18 +133,18 @@
   overflow-x: auto;
 }
 .bisondb-terminal .prompt {
-  color: #f3b14e;
+  color: #e2654b;
 }
 .bisondb-terminal .dim {
-  color: #847a6c;
+  color: #857770;
 }
 .bisondb-terminal .out {
   color: var(--vp-c-text-2);
 }
 :root:not(.dark) .bisondb-terminal {
-  /* keep the terminal dark in light mode — it renders a dark-console session */
-  background: #14110e;
+  /* the terminal renders a dark console session even in light mode */
+  background: #110e0c;
 }
 :root:not(.dark) .bisondb-terminal .out {
-  color: #b3a899;
+  color: #b5a79f;
 }
