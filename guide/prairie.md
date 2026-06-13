@@ -11,8 +11,7 @@ or [build it from source](/build/prairie).
 
 ## Connecting
 
-![Connection screen](/screenshots/prairie-connection.png)
-*(screenshot placeholder)*
+![Prairie connection screen](/screenshots/prairie-connection.png)
 
 Two paths from the connection screen:
 
@@ -26,8 +25,7 @@ incompatible server with a clear explanation rather than failing on a later comm
 
 ## The workspace
 
-![Document browser](/screenshots/prairie-browser.png)
-*(screenshot placeholder)*
+![Prairie document browser](/screenshots/prairie-browser.png)
 
 - **Sidebar** — collections with live document counts, create (name validation matches the
   server's rules), drop (type-the-name confirmation), and compact.
@@ -59,6 +57,3 @@ the `_id`, "Delete matching" shows the filter and its match count and requires t
   columns), for the whole collection or the current filter.
 - **Indexes tab**: list, create (dotted paths allowed), and drop, with the build's
   documents-indexed count reported on creation.
-
-![Explain plan](/screenshots/prairie-explain.png)
-*(screenshot placeholder)*
