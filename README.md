@@ -4,8 +4,11 @@
   <p><strong>Source for the BisonDB documentation site.</strong></p>
   <p>
     <a href="https://github.com/Abdullah-Masood-05/bisondb-site/actions/workflows/deploy.yml"><img src="https://github.com/Abdullah-Masood-05/bisondb-site/actions/workflows/deploy.yml/badge.svg" alt="Deploy docs" /></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License: GPLv3" /></a>
-    <a href="https://abdullah-masood-05.github.io/bisondb-site/"><strong>Live site →</strong></a>
+    <a href="https://github.com/Abdullah-Masood-05/bisondb-site/commits"><img src="https://img.shields.io/github/last-commit/Abdullah-Masood-05/bisondb-site?style=flat-square" alt="Last commit" /></a>
+    <a href="https://github.com/Abdullah-Masood-05/bisondb-site/stargazers"><img src="https://img.shields.io/github/stars/Abdullah-Masood-05/bisondb-site?style=flat-square" alt="Stars" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/github/license/Abdullah-Masood-05/bisondb-site?style=flat-square" alt="License" /></a>
+    <img src="https://img.shields.io/badge/VitePress-1.x-5C73E7?style=flat-square&logo=vue.js&logoColor=white" alt="VitePress 1.x" />
+    <a href="https://abdullah-masood-05.github.io/bisondb-site/"><img src="https://img.shields.io/badge/site-live-success?style=flat-square" alt="Live site" /></a>
   </p>
   <p>
     <a href="https://github.com/Abdullah-Masood-05/Bisondb">BisonDB engine</a> ·
