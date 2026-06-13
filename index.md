@@ -6,7 +6,7 @@ hero:
   text: A document database built from scratch
   tagline: BSON storage, hand-written B+Trees, and a Compass-style GUI.
   image:
-    src: /icon.svg
+    src: /logo.png
     alt: BisonDB
   actions:
     - theme: brand

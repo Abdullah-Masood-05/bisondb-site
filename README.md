@@ -1,8 +1,21 @@
-# bisondb-site
+<div align="center">
+  <img src="public/logo.png" alt="BisonDB logo" width="120" height="120" />
+  <h1>BisonDB Documentation</h1>
+  <p><strong>Source for the BisonDB documentation site.</strong></p>
+  <p>
+    <a href="https://github.com/Abdullah-Masood-05/bisondb-site/actions/workflows/deploy.yml"><img src="https://github.com/Abdullah-Masood-05/bisondb-site/actions/workflows/deploy.yml/badge.svg" alt="Deploy docs" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-blue.svg" alt="License: GPLv3" /></a>
+    <a href="https://abdullah-masood-05.github.io/bisondb-site/"><strong>Live site →</strong></a>
+  </p>
+  <p>
+    <a href="https://github.com/Abdullah-Masood-05/Bisondb">BisonDB engine</a> ·
+    <a href="https://github.com/Abdullah-Masood-05/Prairie">Prairie GUI</a>
+  </p>
+</div>
 
 The official documentation website for [BisonDB](https://github.com/Abdullah-Masood-05/Bisondb)
 and [Prairie](https://github.com/Abdullah-Masood-05/Prairie), built with VitePress and
-deployed to GitHub Pages.
+deployed to GitHub Pages. It documents both the engine and the GUI repos.
 
 ## Local development
 

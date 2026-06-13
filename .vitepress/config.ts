@@ -7,13 +7,15 @@ export default withMermaid(
     description:
       'A document database built from scratch — BSON storage, hand-written B+Trees, and a Compass-style GUI.',
     base: '/bisondb-site/',
+    // README.md is for GitHub (its image path is repo-relative), not a site page.
+    srcExclude: ['README.md'],
     lastUpdated: true,
     // Dead links are a build failure, not a warning.
     ignoreDeadLinks: false,
-    head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/bisondb-site/icon.svg' }]],
+    head: [['link', { rel: 'icon', type: 'image/png', href: '/bisondb-site/logo.png' }]],
     appearance: 'dark',
     themeConfig: {
-      logo: '/icon.svg',
+      logo: '/logo.png',
       nav: [
         { text: 'Guide', link: '/guide/what-is-bisondb' },
         { text: 'Build', link: '/build/windows' },
