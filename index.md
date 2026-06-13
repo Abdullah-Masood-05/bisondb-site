@@ -65,5 +65,5 @@ That `29470 → 4` collapse is the whole point of the [B+Tree](/architecture/btr
 <div style="margin-top:48px; padding-top:24px; border-top:1px solid var(--vp-c-divider); display:flex; gap:24px; font-size:0.9em;">
   <a href="https://github.com/Abdullah-Masood-05/Bisondb">Engine source</a>
   <a href="https://github.com/Abdullah-Masood-05/Prairie">Prairie source</a>
-  <a href="https://github.com/Abdullah-Masood-05/Prairie/blob/main/LICENSE">MIT license</a>
+  <a href="https://github.com/Abdullah-Masood-05/Bisondb/blob/main/LICENSE">GPLv3 license</a>
 </div>
