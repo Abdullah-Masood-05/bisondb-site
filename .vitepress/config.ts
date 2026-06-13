@@ -72,7 +72,7 @@ export default withMermaid(
       },
       socialLinks: [{ icon: 'github', link: 'https://github.com/Abdullah-Masood-05/Bisondb' }],
       footer: {
-        message: 'MIT licensed. BisonDB and Prairie are educational projects.',
+        message: 'BisonDB engine: GPLv3 · Prairie GUI: MIT · educational projects.',
         copyright: 'BisonDB · Prairie',
       },
       search: { provider: 'local' },
