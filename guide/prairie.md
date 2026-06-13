@@ -38,6 +38,12 @@ incompatible server with a clear explanation rather than failing on a later comm
   (`scan` / `index_range` / `index_point`), documents examined vs returned, and — when a
   single-field filter scans — a hint to create the index that would fix it.
 
+![Prairie explain plan: index_range on pop](/screenshots/prairie-explain.png)
+
+The same `{pop: {$gte: 40000}}` query examines all 29,473 documents as a `scan`, but only
+1,015 once an index on `pop` exists — the [B+Tree](/architecture/btree) turning a full read
+into a range seek, visible in one badge.
+
 ## Editing and deleting
 
 Inserts accept one document or an array, with server errors (like `DuplicateKey`) shown in
@@ -57,3 +63,5 @@ the `_id`, "Delete matching" shows the filter and its match count and requires t
   columns), for the whole collection or the current filter.
 - **Indexes tab**: list, create (dotted paths allowed), and drop, with the build's
   documents-indexed count reported on creation.
+
+![Prairie indexes tab](/screenshots/prairie-indexes.png)

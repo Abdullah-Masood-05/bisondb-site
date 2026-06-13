@@ -67,6 +67,11 @@ scan         examined 29470 · returned 1015   ← before createIndex('pop')
 index_range  examined  1015 · returned 1015   ← after
 ```
 
+The same plan surfaced in [Prairie](/guide/prairie), reading the `explain` response over the
+wire protocol:
+
+![index_range explain plan in Prairie](/screenshots/prairie-explain.png)
+
 ## Writes through the same path
 
 - `deleteMany(filter)` runs `find`, then deletes by `_id` — the planner accelerates
