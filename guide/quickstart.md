@@ -23,14 +23,13 @@ Download the latest release for your platform from the
 
 :::
 
-You'll see the startup banner and:
+You'll see the startup banner, then a `listening` line and structured per-request logs:
 
-```
-[info] bisond listening on 127.0.0.1:27027 dir=data/db threads=16
-```
+![bisond startup banner and request log](/screenshots/bisond-banner.png)
 
 The data directory is created on first use. `bisond` has **no authentication and no TLS** —
-it binds to loopback by default and should stay there.
+it binds to loopback by default and should stay there. `--quiet` suppresses the banner and
+the per-request logging.
 
 ## 3. Open the shell
 
