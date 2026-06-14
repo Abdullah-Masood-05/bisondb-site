@@ -22,6 +22,10 @@ constraint that shaped every component, and this site documents those components
 - **Speaks a real protocol** — clients talk to `bisond` over TCP with length-prefixed BSON
   frames. The shell, the converter CLI, the GUI, and your own scripts all use the same
   protocol, [documented completely](/architecture/protocol).
+- **Encrypts and authenticates** — since v1.2 the transport can run over **TLS** (`--tls`,
+  TLS 1.2) and every connection must **log in** first. Users have one of three roles
+  (`read` / `readWrite` / `admin`); passwords are Argon2id-hashed and sessions use in-memory
+  tokens. The full model is on the [Security page](/reference/security).
 
 ## What it does NOT do
 
@@ -30,11 +34,14 @@ These are deliberate scope boundaries, not roadmap items hidden in fine print:
 | Not supported | What that means |
 |---|---|
 | Multiple nodes | No replication, no sharding, no consensus. One process owns one data directory. |
-| Authentication / TLS | `bisond` binds to loopback by default. Exposing it to a network is at your own risk. |
 | Transactions | Single operations are atomic with respect to crash recovery; multi-document transactions don't exist. |
 | Compound / unique secondary indexes | Indexes cover one field each; only `_id` is unique. |
 | Field removal in updates | `updateOne` supports `$set` only. |
+| TLS 1.3 / per-collection ACLs | TLS is 1.2 only; roles are server-wide, not per database or collection. |
 | Production workloads | See [the FAQ](/reference/faq) for an honest treatment of this question. |
+
+It **does** authenticate and encrypt (since v1.2) — that used to be on this list and no
+longer belongs here. See [Security](/reference/security).
 
 ## The pieces
 

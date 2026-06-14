@@ -52,9 +52,6 @@ bisonsh --connect localhost:27027 --tls-ca ./tls/cert.pem --username admin
 
 ## Users and roles
 
-
-## Users and roles
-
 Users are stored in a hidden system file, `<dbdir>/__auth.bsd`, that is **never** exposed
 through `listCollections`, `dbStats`, `find`, or export. Each record holds a username, the
 password hash + salt + KDF parameters, the user's roles, a creation timestamp, and a
