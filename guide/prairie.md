@@ -11,7 +11,7 @@ or [build it from source](/build/prairie).
 
 ## Connecting
 
-![Prairie connection screen](/screenshots/prairie-connection.png)
+![Prairie connection screen with TLS options expanded](/screenshots/prairie-connection.png)
 
 Two paths from the connection screen:
 
