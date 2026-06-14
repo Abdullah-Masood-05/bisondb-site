@@ -1,15 +1,24 @@
 # Changelog
 
-Release notes for both products. They normally track the same wire protocol, but are
-**temporarily out of sync**: the engine is at **v1.1.0 (protocol v2, authentication)** while
-Prairie is at **v1.0.3 (protocol v1)**. Prairie will move to protocol v2 with a login flow
-after the TLS phase; until then it shows a mismatch screen against a v1.1.0 server.
+Release notes for the BisonDB **engine** and the **Prairie** GUI. Latest:
+
+| Product | Version | Wire protocol |
+|---|---|---|
+| BisonDB engine | **v1.2.0** — TLS + authentication | v2 |
+| Prairie (GUI) | **v1.0.3** | v1 |
+
+The two are **temporarily out of sync**: Prairie still speaks wire protocol v1, so it shows a
+mismatch screen against a v1.1.0+ engine. A Prairie update (protocol v2 auth + a TLS client)
+is planned. [Downloads are on the home page](/#download).
 
 ## v1.2.0 — 2026-06-14
 
-TLS transport encryption. With `--tls`, the auth handshake and all data now travel inside an
-encrypted session — completing the security story: **encrypted, authenticated transport** for
-single-node use. See the [Security](/reference/security) page.
+[Engine release](https://github.com/Abdullah-Masood-05/Bisondb/releases/tag/v1.2.0) ·
+[Security guide](/reference/security)
+
+TLS transport encryption. With `--tls`, the authentication handshake and all data travel
+inside an encrypted session — completing the security story: an **encrypted, authenticated
+transport** for single-node use.
 
 ### BisonDB engine
 
@@ -32,9 +41,11 @@ single-node use. See the [Security](/reference/security) page.
 
 ## v1.1.0 — 2026-06-14
 
+[Engine release](https://github.com/Abdullah-Masood-05/Bisondb/releases/tag/v1.1.0)
+
 Authentication. The engine now requires every connection to log in before any data command.
-**There is still no TLS** — credentials and data travel in clear text, so this remains a
-loopback/trusted-LAN tool until the TLS phase. See the [Security](/reference/security) page.
+At this release there was **still no TLS** — credentials travelled in clear text (TLS landed
+in v1.2.0). See the [Security](/reference/security) page.
 
 ### BisonDB engine
 
