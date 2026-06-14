@@ -1,7 +1,39 @@
 # Changelog
 
 Release notes for both products. Engine and GUI version together: a Prairie release
-requires the matching protocol version (currently **1**).
+requires the matching protocol version (currently **2**).
+
+## v1.1.0 — 2026-06-14
+
+Authentication. The engine now requires every connection to log in before any data command.
+**There is still no TLS** — credentials and data travel in clear text, so this remains a
+loopback/trusted-LAN tool until the TLS phase. See the [Security](/reference/security) page.
+
+### BisonDB engine
+
+- **Users, roles, and tokens.** Three roles — `read`, `readWrite`, `admin` — gate every
+  command through a central capability check. Users live in a hidden `__auth.bsd` system
+  file (never listed or exported). Passwords are **Argon2id**-hashed (memory-hard, via
+  Monocypher) with per-user salts; a successful login issues a 256-bit session token whose
+  **BLAKE2b-256 hash** alone is kept in memory.
+- **Wire protocol → v2.** New `authenticate`, `authenticateToken`, `logout`, `createUser`,
+  `dropUser`, `changePassword`, `listUsers` commands; new `AuthRequired` / `AuthFailed`
+  (generic — no user enumeration) / `Forbidden` / `TokenExpired` error codes; `serverStatus`
+  reports a `security: { auth, tls:false, setupMode }` block. **Breaking for v1 clients**
+  (which never authenticate); they are rejected once any user exists.
+- **First-run bootstrap.** `bisond --init-admin <user>` (password from
+  `$BISONDB_ADMIN_PASSWORD`), or a one-time bootstrap token printed to stderr, or the
+  offline `bisonc auth create-admin --dir <dbdir> --username <u>`. No anonymous access once
+  users exist; anti-lockout protects the last admin. A `--no-auth` dev escape hatch refuses
+  non-loopback binds.
+- **Clients.** `bisonsh` adds `--username`/`--token` and `auth login/logout/whoami/passwd/
+  create-user/list-users/bootstrap`; `bisonc` remote commands accept `--username`/`--token`.
+  Passwords are read from a no-echo prompt or the environment, never from the command line.
+
+### Prairie
+
+- No change yet. Prairie pins wire protocol v1 and will show its mismatch screen against a
+  v1.1.0 server; a protocol-v2 + login update is planned next.
 
 ## v1.0.0 — 2026-06-13
 
