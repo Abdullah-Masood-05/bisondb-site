@@ -30,7 +30,7 @@ not aspirational.
 
 | Boundary | Consequence |
 |---|---|
-| **No TLS yet** | the transport is unencrypted — credentials and data are clear text; trusted networks only (see [Security](/reference/security)) |
+| TLS is opt-in (`--tls`) | with `--tls` the transport is encrypted (TLS 1.2); without it, plain TCP (clear text). TLS 1.3 not yet (see [Security](/reference/security)) |
 | Authentication required | every connection must authenticate before data commands; `read`/`readWrite`/`admin` roles gate capabilities |
 | Session tokens are in-memory | tokens are lost on server restart; clients re-authenticate (default TTL 1h) |
 | One process per data directory | no cross-process locking; two servers on one dir corrupt it |

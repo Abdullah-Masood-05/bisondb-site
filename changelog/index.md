@@ -5,6 +5,31 @@ Release notes for both products. They normally track the same wire protocol, but
 Prairie is at **v1.0.3 (protocol v1)**. Prairie will move to protocol v2 with a login flow
 after the TLS phase; until then it shows a mismatch screen against a v1.1.0 server.
 
+## v1.2.0 — 2026-06-14
+
+TLS transport encryption. With `--tls`, the auth handshake and all data now travel inside an
+encrypted session — completing the security story: **encrypted, authenticated transport** for
+single-node use. See the [Security](/reference/security) page.
+
+### BisonDB engine
+
+- **TLS 1.2 (ECDHE + AES-GCM)** via Mbed-TLS 3.6 (vendored through FetchContent, so the
+  binaries stay dependency-free). All TLS lives behind a `net::Stream` abstraction; the
+  framing/commands above it are unchanged. (TLS 1.3 is deferred behind a config wrinkle.)
+- **Server:** `bisond --tls` with `--tls-cert`/`--tls-key`, or `--tls-self-signed` (prints a
+  SHA-256 fingerprint to pin). The TLS handshake runs in the worker thread under a timeout, so
+  a stalled/malicious handshake can't block accepting.
+- **Clients:** `bisonsh` and `bisonc` gain `--tls` / `--tls-ca` / `--tls-pin` /
+  `--tls-insecure`; verification is secure by default (OS trust store + hostname). The shell
+  banner shows a transport indicator (verified / ENCRYPTED-but-UNVERIFIED / not-encrypted).
+- **Tooling:** `bisonc tls gen-cert --out-dir <dir>` writes `cert.pem` + a `0600` `key.pem` —
+  the recommended setup over runtime self-signing.
+- Private keys are never logged; a plaintext↔TLS mismatch fails fast with a guiding message.
+
+### Prairie
+
+- Still unchanged (protocol v1). A protocol-v2 + auth + TLS client update is planned.
+
 ## v1.1.0 — 2026-06-14
 
 Authentication. The engine now requires every connection to log in before any data command.

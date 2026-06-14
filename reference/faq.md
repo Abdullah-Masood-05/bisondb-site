@@ -11,18 +11,20 @@ and an 8-thread concurrency soak. That is more verification than most hobby data
 
 What it *doesn't* have is the part that makes databases production-grade: years of adverse
 workloads, operational tooling (backups, monitoring, online migration), and a second node to
-fail over to. It now has **authentication** (users, roles, Argon2id-hashed passwords,
-session tokens — see [Security](/reference/security)), but **not TLS** — so credentials and
-data still cross the wire in clear text, which alone disqualifies it from any untrusted
-network. "Production-ready" is earned in operations, not in test suites. Use it to learn, to
-prototype, to demo — keep anything you'd cry about in SQLite or Postgres.
+fail over to. It now has an **encrypted, authenticated transport** — TLS plus users/roles
+with Argon2id-hashed passwords and session tokens (see [Security](/reference/security)) — so
+it is no longer clear-text-only, but it is still **single-node**. "Production-ready" is
+earned in operations, not in test suites. Use it to learn, to prototype, to demo — keep
+anything you'd cry about in SQLite or Postgres.
 
 ## Is it secure? Can I expose it to the internet?
 
-Authentication exists, but **there is no TLS yet**, so **no** — do not expose it. Credentials
-and every document travel unencrypted; anyone who can sniff the connection reads them. Run it
-on loopback or a trusted LAN until the TLS phase ships. The full model (roles, tokens,
-bootstrap) is on the [Security](/reference/security) page.
+It now supports **TLS** (`--tls`) and **authentication**, so a single trusted node can be
+reasonably locked down. But it's still single-node with dev escape hatches
+(`--tls-insecure`, `--no-auth`), no audit pipeline, and only TLS 1.2 — so "expose it to the
+public internet" is still not the intended use. On a trusted LAN with TLS + auth on, it's
+fine. The full model (cert options, verification modes, roles, tokens, bootstrap) is on the
+[Security](/reference/security) page — **turn TLS on**, it's opt-in.
 
 ## Why not just use MongoDB?
 

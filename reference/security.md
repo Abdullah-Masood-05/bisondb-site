@@ -1,16 +1,57 @@
 # Security
 
-::: danger No TLS yet — the transport is UNENCRYPTED
-BisonDB has **authentication**, but **not TLS**. Usernames, passwords, session tokens, and
-every document travel over the socket in **clear text**. Anyone who can observe the
-connection can read them. **Run BisonDB only on loopback or a trusted LAN until the TLS
-phase ships.** TLS is the next planned phase; this page describes the auth model that lands
-first.
+BisonDB offers an **encrypted, authenticated transport** for single-node use: **TLS** on the
+wire plus user/role **authentication**. It remains single-node (no replication), and the
+`--tls-insecure` / `--no-auth` escape hatches exist for development — so it is not a managed
+service, but with TLS on, credentials and data are no longer exposed in clear text.
+
+::: warning Turn TLS on
+TLS is **opt-in** (`--tls`). Without it the transport is plain TCP — clear text — which is
+fine for loopback development but never for a network. Authentication alone does **not**
+encrypt anything.
 :::
 
 Authentication is **wire protocol v2**. A connection must authenticate before it can run any
-data command. The byte-level handshake, state machine, and error codes are specified in the
-[wire protocol reference](/architecture/protocol); this page is the operator's view.
+data command; with `--tls` that handshake (and every frame) runs **inside a TLS session**.
+The byte-level details are in the [wire protocol reference](/architecture/protocol); this
+page is the operator's view.
+
+## Secure quickstart
+
+```bash
+# 1. Generate a cert + key (self-signed; the key file is written 0600).
+#    Use a real CA-signed cert in production.
+bisonc tls gen-cert --out-dir ./tls --cn localhost
+
+# 2. Start bisond with TLS and seed an admin (password from the environment).
+export BISONDB_ADMIN_PASSWORD='choose-a-strong-one'
+bisond --dir data/db --tls --tls-cert ./tls/cert.pem --tls-key ./tls/key.pem \
+       --init-admin admin
+
+# 3. Connect, trusting the self-signed cert (or pin its printed fingerprint).
+bisonsh --connect localhost:27027 --tls-ca ./tls/cert.pem --username admin
+```
+
+## TLS
+
+- **Library.** Mbed-TLS 3.6, vendored via FetchContent so the binaries stay dependency-free.
+  TLS 1.2 (ECDHE + AES-GCM); TLS 1.3 is deferred (a config wrinkle in the current build).
+- **Server certificate.** `--tls-cert <pem>` + `--tls-key <pem>` for an operator-provided
+  cert (real CA-signed or internal), or `--tls-self-signed` to generate one in memory at
+  startup — bisond prints its **SHA-256 fingerprint** to stderr so a client can pin it. The
+  offline `bisonc tls gen-cert` is the recommended setup (a key file on disk, mode 0600).
+- **Client verification** (secure by default — opt out is explicit and loud):
+  - default (`--tls`): verify the cert against the **OS trust store** *and* the hostname;
+  - `--tls-ca <pem>`: trust a specific CA / self-signed cert (the usual self-signed path);
+  - `--tls-pin <sha256>`: accept exactly the cert with this fingerprint (pairs with the
+    fingerprint that `--tls-self-signed` prints);
+  - `--tls-insecure`: skip verification entirely — **dev only**, prints a warning, and the
+    shell banner shows the connection as *ENCRYPTED but UNVERIFIED*.
+- Private keys are never logged. Connecting with the wrong transport (plaintext vs TLS)
+  fails fast with a message telling you to add or drop `--tls`.
+
+## Users and roles
+
 
 ## Users and roles
 
@@ -100,7 +141,9 @@ development.
 
 ## What's still missing
 
-- **TLS / transport encryption** — the big one, and the next phase. Until then, clear text.
+- **TLS 1.3** — the transport is TLS 1.2 today; 1.3 is deferred behind an Mbed-TLS config
+  wrinkle. (TLS 1.2 with ECDHE + AES-GCM is still secure.)
 - Persistent/long-lived API tokens (today's tokens are session-scoped and in-memory).
 - Per-collection or per-database access control (roles are server-wide).
 - Audit log shipping (auth events are logged locally, without secrets).
+- Single-node only — no replication or failover.
