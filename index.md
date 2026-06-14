@@ -49,8 +49,8 @@ features:
 <pre><span class="dim">$</span> <span class="prompt">bisond --dir data\db</span>
 <span class="out">[info] bisond listening on 127.0.0.1:27027</span>
 <span class="dim">·</span>
-<span class="dim">$</span> <span class="prompt">bisonsh</span>
-<span class="out">BisonDB 1.0.0 @ 127.0.0.1:27027</span>
+<span class="dim">$</span> <span class="prompt">bisonsh --username admin</span>
+<span class="out">BisonDB 1.1.0 @ 127.0.0.1:27027  (as admin)</span>
 <span class="prompt">bisondb&gt;</span> db.zips.find({pop: {$gt: 100000}}).explain()
 <span class="out">{ "plan": "scan", "docsExamined": 29470, "docsReturned": 4 }</span>
 <span class="prompt">bisondb&gt;</span> db.zips.createIndex('pop')

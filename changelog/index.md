@@ -1,7 +1,9 @@
 # Changelog
 
-Release notes for both products. Engine and GUI version together: a Prairie release
-requires the matching protocol version (currently **2**).
+Release notes for both products. They normally track the same wire protocol, but are
+**temporarily out of sync**: the engine is at **v1.1.0 (protocol v2, authentication)** while
+Prairie is at **v1.0.3 (protocol v1)**. Prairie will move to protocol v2 with a login flow
+after the TLS phase; until then it shows a mismatch screen against a v1.1.0 server.
 
 ## v1.1.0 — 2026-06-14
 
@@ -34,6 +36,26 @@ loopback/trusted-LAN tool until the TLS phase. See the [Security](/reference/sec
 
 - No change yet. Prairie pins wire protocol v1 and will show its mismatch screen against a
   v1.1.0 server; a protocol-v2 + login update is planned next.
+
+## Prairie v1.0.3 — 2026-06-13
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.3). Relicensed
+from MIT to **GPL-3.0-or-later** to match the engine: full GPLv3 `LICENSE`, a GPL notice
+header on every source file, and the bundled engine's license shipped as `LICENSE-bisond.txt`
+beside `bisond` in the install directory.
+
+## Prairie v1.0.2 — 2026-06-13
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.2). Fix: opening a
+local database no longer pops a visible `bisond.exe` console window on Windows — the sidecar
+is spawned with `CREATE_NO_WINDOW`.
+
+## Prairie v1.0.1 — 2026-06-13
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.1). Fix: local
+databases failed with *"bisond binary not found"* because the sidecar resolver only checked a
+working-directory-relative path. It now searches the Tauri resource directory and several
+executable-relative locations, and lists every path tried when the binary is genuinely absent.
 
 ## v1.0.0 — 2026-06-13
 
