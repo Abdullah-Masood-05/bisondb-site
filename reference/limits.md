@@ -30,6 +30,9 @@ not aspirational.
 
 | Boundary | Consequence |
 |---|---|
+| **No TLS yet** | the transport is unencrypted — credentials and data are clear text; trusted networks only (see [Security](/reference/security)) |
+| Authentication required | every connection must authenticate before data commands; `read`/`readWrite`/`admin` roles gate capabilities |
+| Session tokens are in-memory | tokens are lost on server restart; clients re-authenticate (default TTL 1h) |
 | One process per data directory | no cross-process locking; two servers on one dir corrupt it |
 | One writer per collection at a time | bulk writes serialize (readers proceed concurrently) |
 | `$set`-only updates | no field removal, no `$inc`/`$push` |

@@ -10,10 +10,19 @@ seeds), a BSON codec validated against MongoDB's official corpus, sanitizer-clea
 and an 8-thread concurrency soak. That is more verification than most hobby databases.
 
 What it *doesn't* have is the part that makes databases production-grade: years of adverse
-workloads, operational tooling (backups, monitoring, online migration), security of any
-kind, and a second node to fail over to. "Production-ready" is earned in operations, not in
-test suites. Use it to learn, to prototype, to demo — keep anything you'd cry about in
-SQLite or Postgres.
+workloads, operational tooling (backups, monitoring, online migration), and a second node to
+fail over to. It now has **authentication** (users, roles, Argon2id-hashed passwords,
+session tokens — see [Security](/reference/security)), but **not TLS** — so credentials and
+data still cross the wire in clear text, which alone disqualifies it from any untrusted
+network. "Production-ready" is earned in operations, not in test suites. Use it to learn, to
+prototype, to demo — keep anything you'd cry about in SQLite or Postgres.
+
+## Is it secure? Can I expose it to the internet?
+
+Authentication exists, but **there is no TLS yet**, so **no** — do not expose it. Credentials
+and every document travel unencrypted; anyone who can sniff the connection reads them. Run it
+on loopback or a trusted LAN until the TLS phase ships. The full model (roles, tokens,
+bootstrap) is on the [Security](/reference/security) page.
 
 ## Why not just use MongoDB?
 
