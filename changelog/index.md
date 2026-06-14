@@ -5,7 +5,7 @@ Release notes, grouped by product. Latest:
 | Product | Version | Wire protocol |
 |---|---|---|
 | BisonDB engine | **v1.2.0** — TLS + authentication | v2 |
-| Prairie (GUI) | **v1.2.0** — UI/UX + motion | v2 |
+| Prairie (GUI) | **v1.2.1** — UI/UX + motion | v2 |
 
 The engine and Prairie are in sync on wire protocol v2. Prairie requires a BisonDB
 1.1.0-or-newer server. [Downloads are on the home page](/#download).
@@ -89,6 +89,13 @@ First stable release.
 
 The Compass-style desktop GUI (Tauri + React). Tracks the engine's wire protocol — now on
 **v2** (auth + TLS).
+
+### v1.2.1 — 2026-06-14
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.2.1). Fixes a logout
+crash introduced by the route cross-fade (the workspace now reads its connection defensively
+during the exit animation) and adds a slide transition between the Documents / Indexes /
+Import-Export tabs.
 
 ### v1.2.0 — 2026-06-14
 
