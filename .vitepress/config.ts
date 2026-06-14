@@ -66,6 +66,7 @@ export default withMermaid(
             text: 'Reference',
             items: [
               { text: 'CLI tools', link: '/reference/cli' },
+              { text: 'Security', link: '/reference/security' },
               { text: 'Limits', link: '/reference/limits' },
               { text: 'FAQ', link: '/reference/faq' },
             ],
