@@ -1,6 +1,6 @@
 # Changelog
 
-Release notes for the BisonDB **engine** and the **Prairie** GUI. Latest:
+Release notes, grouped by product. Latest:
 
 | Product | Version | Wire protocol |
 |---|---|---|
@@ -11,7 +11,11 @@ The two are **temporarily out of sync**: Prairie still speaks wire protocol v1, 
 mismatch screen against a v1.1.0+ engine. A Prairie update (protocol v2 auth + a TLS client)
 is planned. [Downloads are on the home page](/#download).
 
-## v1.2.0 — 2026-06-14
+## BisonDB engine
+
+The server (`bisond`), shell (`bisonsh`), CLI (`bisonc`), and the `bisondb_core` library.
+
+### v1.2.0 — 2026-06-14
 
 [Engine release](https://github.com/Abdullah-Masood-05/Bisondb/releases/tag/v1.2.0) ·
 [Security guide](/reference/security)
@@ -19,8 +23,6 @@ is planned. [Downloads are on the home page](/#download).
 TLS transport encryption. With `--tls`, the authentication handshake and all data travel
 inside an encrypted session — completing the security story: an **encrypted, authenticated
 transport** for single-node use.
-
-### BisonDB engine
 
 - **TLS 1.2 (ECDHE + AES-GCM)** via Mbed-TLS 3.6 (vendored through FetchContent, so the
   binaries stay dependency-free). All TLS lives behind a `net::Stream` abstraction; the
@@ -35,19 +37,14 @@ transport** for single-node use.
   the recommended setup over runtime self-signing.
 - Private keys are never logged; a plaintext↔TLS mismatch fails fast with a guiding message.
 
-### Prairie
+### v1.1.0 — 2026-06-14
 
-- Still unchanged (protocol v1). A protocol-v2 + auth + TLS client update is planned.
-
-## v1.1.0 — 2026-06-14
-
-[Engine release](https://github.com/Abdullah-Masood-05/Bisondb/releases/tag/v1.1.0)
+[Engine release](https://github.com/Abdullah-Masood-05/Bisondb/releases/tag/v1.1.0) ·
+[Security guide](/reference/security)
 
 Authentication. The engine now requires every connection to log in before any data command.
 At this release there was **still no TLS** — credentials travelled in clear text (TLS landed
-in v1.2.0). See the [Security](/reference/security) page.
-
-### BisonDB engine
+in v1.2.0).
 
 - **Users, roles, and tokens.** Three roles — `read`, `readWrite`, `admin` — gate every
   command through a central capability check. Users live in a hidden `__auth.bsd` system
@@ -57,8 +54,8 @@ in v1.2.0). See the [Security](/reference/security) page.
 - **Wire protocol → v2.** New `authenticate`, `authenticateToken`, `logout`, `createUser`,
   `dropUser`, `changePassword`, `listUsers` commands; new `AuthRequired` / `AuthFailed`
   (generic — no user enumeration) / `Forbidden` / `TokenExpired` error codes; `serverStatus`
-  reports a `security: { auth, tls:false, setupMode }` block. **Breaking for v1 clients**
-  (which never authenticate); they are rejected once any user exists.
+  reports a `security` block. **Breaking for v1 clients** (which never authenticate); they
+  are rejected once any user exists.
 - **First-run bootstrap.** `bisond --init-admin <user>` (password from
   `$BISONDB_ADMIN_PASSWORD`), or a one-time bootstrap token printed to stderr, or the
   offline `bisonc auth create-admin --dir <dbdir> --username <u>`. No anonymous access once
@@ -68,37 +65,11 @@ in v1.2.0). See the [Security](/reference/security) page.
   create-user/list-users/bootstrap`; `bisonc` remote commands accept `--username`/`--token`.
   Passwords are read from a no-echo prompt or the environment, never from the command line.
 
-### Prairie
+### v1.0.0 — 2026-06-13
 
-- No change yet. Prairie pins wire protocol v1 and will show its mismatch screen against a
-  v1.1.0 server; a protocol-v2 + login update is planned next.
+[Engine release](https://github.com/Abdullah-Masood-05/Bisondb/releases/tag/v1.0.0)
 
-## Prairie v1.0.3 — 2026-06-13
-
-[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.3). Relicensed
-from MIT to **GPL-3.0-or-later** to match the engine: full GPLv3 `LICENSE`, a GPL notice
-header on every source file, and the bundled engine's license shipped as `LICENSE-bisond.txt`
-beside `bisond` in the install directory.
-
-## Prairie v1.0.2 — 2026-06-13
-
-[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.2). Fix: opening a
-local database no longer pops a visible `bisond.exe` console window on Windows — the sidecar
-is spawned with `CREATE_NO_WINDOW`.
-
-## Prairie v1.0.1 — 2026-06-13
-
-[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.1). Fix: local
-databases failed with *"bisond binary not found"* because the sidecar resolver only checked a
-working-directory-relative path. It now searches the Tauri resource directory and several
-executable-relative locations, and lists every path tried when the binary is genuinely absent.
-
-## v1.0.0 — 2026-06-13
-
-First stable release. [Engine release](https://github.com/Abdullah-Masood-05/Bisondb/releases/tag/v1.0.0) ·
-[Prairie release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.0)
-
-### BisonDB engine
+First stable release.
 
 - BSON codec for 11 types, validated against the official corpus; Extended JSON v2
   (relaxed + canonical) read/write; byte-exact `mongodump` round-trips.
@@ -115,7 +86,35 @@ First stable release. [Engine release](https://github.com/Abdullah-Masood-05/Bis
 - `bisonc` converter: BSON ⇄ JSON files, embedded and remote database operations.
 - Windows x64 release binaries are fully static (no runtime DLLs).
 
-### Prairie
+## Prairie
+
+The Compass-style desktop GUI (Tauri + React). Tracks the engine's wire protocol; currently
+on v1 (an update to protocol v2 with auth + a TLS client is planned).
+
+### v1.0.3 — 2026-06-13
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.3). Relicensed
+from MIT to **GPL-3.0-or-later** to match the engine: full GPLv3 `LICENSE`, a GPL notice
+header on every source file, and the bundled engine's license shipped as `LICENSE-bisond.txt`
+beside `bisond` in the install directory.
+
+### v1.0.2 — 2026-06-13
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.2). Fix: opening a
+local database no longer pops a visible `bisond.exe` console window on Windows — the sidecar
+is spawned with `CREATE_NO_WINDOW`.
+
+### v1.0.1 — 2026-06-13
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.1). Fix: local
+databases failed with *"bisond binary not found"* because the sidecar resolver only checked a
+working-directory-relative path. It now searches the Tauri resource directory and several
+executable-relative locations, and lists every path tried when the binary is genuinely absent.
+
+### v1.0.0 — 2026-06-13
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.0.0). First stable
+release, matching BisonDB v1.0.0 (wire protocol v1).
 
 - Connection screen with remote servers, local databases via bundled bisond sidecar
   (ephemeral port, reaped on disconnect and window close), persisted recent connections.
