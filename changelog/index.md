@@ -5,11 +5,10 @@ Release notes, grouped by product. Latest:
 | Product | Version | Wire protocol |
 |---|---|---|
 | BisonDB engine | **v1.2.0** — TLS + authentication | v2 |
-| Prairie (GUI) | **v1.0.3** | v1 |
+| Prairie (GUI) | **v1.1.0** — auth + TLS client | v2 |
 
-The two are **temporarily out of sync**: Prairie still speaks wire protocol v1, so it shows a
-mismatch screen against a v1.1.0+ engine. A Prairie update (protocol v2 auth + a TLS client)
-is planned. [Downloads are on the home page](/#download).
+The engine and Prairie are **back in sync on wire protocol v2**. Prairie 1.1.0 requires a
+BisonDB 1.1.0-or-newer server. [Downloads are on the home page](/#download).
 
 ## BisonDB engine
 
@@ -88,8 +87,22 @@ First stable release.
 
 ## Prairie
 
-The Compass-style desktop GUI (Tauri + React). Tracks the engine's wire protocol; currently
-on v1 (an update to protocol v2 with auth + a TLS client is planned).
+The Compass-style desktop GUI (Tauri + React). Tracks the engine's wire protocol — now on
+**v2** (auth + TLS).
+
+### v1.1.0 — 2026-06-14
+
+[Release](https://github.com/Abdullah-Masood-05/Prairie/releases/tag/v1.1.0). Sync with
+BisonDB v1.1.0+ (wire protocol v2): **authentication and TLS**.
+
+- **TLS** with the server's verification modes (system trust / CA or self-signed file /
+  SHA-256 pin / insecure), a workspace lock indicator, and local databases that run the
+  bundled sidecar over a pinned self-signed cert (encrypted + verified, no login).
+- **Authentication**: a login step and a first-run setup screen; session tokens stay in the
+  Rust backend (never web storage) with transparent re-auth on expiry.
+- **Admin Users panel** (create/reset-password/drop with roles) and a **role-aware UI**
+  (read-only users have write controls disabled).
+- Recent connections remember username + TLS prefs, never secrets.
 
 ### v1.0.3 — 2026-06-13
 
