@@ -6,6 +6,13 @@ response. It is small enough to implement a client in an afternoon; the
 [engine repo's docs/protocol.md](https://github.com/Abdullah-Masood-05/Bisondb/blob/main/docs/protocol.md)
 includes a from-scratch Python example.
 
+::: warning Authenticated (v2), but not encrypted
+Since wire protocol **v2**, a connection must authenticate (`authenticate` /
+`authenticateToken`) before any data command. There is still **no TLS** — the transport is
+clear text. See the [Security page](/reference/security) for the auth model, roles, and
+bootstrap flow; this page covers the framing and command set.
+:::
+
 ## Framing
 
 ```
@@ -46,7 +53,7 @@ Collection names match `[A-Za-z0-9_][A-Za-z0-9_-]{0,127}`.
 | Command | Request args | Success payload |
 |---|---|---|
 | `ping` | — | `{}` |
-| `serverStatus` | — | `name, version, protocolVersion: 1, uptimeSec, connectionsCurrent, opCounters` |
+| `serverStatus` | — | `name, version, protocolVersion: 2, security: { auth, tls:false, setupMode }`; authenticated callers also get `uptimeSec, connectionsCurrent, opCounters` |
 | `listCollections` | — | `collections: [string]` |
 | `createCollection` | `coll` | `created: bool` (false = existed) |
 | `dropCollection` | `coll` | `dropped: bool` |
@@ -100,6 +107,7 @@ clients (C++ and Rust) reassemble transparently.
 
 ## Versioning
 
-`serverStatus.protocolVersion` is `1`. Clients should check it on connect — Prairie blocks
-its workspace with an explanation when the number doesn't match, rather than failing on a
-later command. Pre-1.0 servers don't report the field at all (treat as 0).
+`serverStatus.protocolVersion` is `2` (v2 added the [authentication](/reference/security)
+handshake). Clients should check it on connect — Prairie blocks its workspace with an
+explanation when the number doesn't match, rather than failing on a later command. Pre-1.0
+servers don't report the field at all (treat as 0); v1 servers report `1` and have no auth.
