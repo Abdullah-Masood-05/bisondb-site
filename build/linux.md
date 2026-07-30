@@ -36,7 +36,7 @@ ctest --preset release --output-on-failure
 :::
 
 Binaries land in `build/release/`. The `debug` preset mirrors it; `asan` and `tsan`
-presets build with sanitizers (Clang recommended) and run the same test suite — the
+presets build with sanitizers (Clang recommended) and run the same test suite. The
 reader/writer concurrency test is specifically meant for TSan.
 
 ```bash
@@ -45,17 +45,17 @@ reader/writer concurrency test is specifically meant for TSan.
 
 ## Troubleshooting
 
-**`cmake: command not found` or version < 3.21** — Ubuntu 20.04's CMake is too old; use
+**`cmake: command not found` or version < 3.21**: Ubuntu 20.04's CMake is too old. Use
 the [Kitware APT repo](https://apt.kitware.com/) or `pip install cmake`.
 
-**`g++: unrecognized option '-std=c++20'` / concepts errors** — compiler too old. Check
+**`g++: unrecognized option '-std=c++20'` or concepts errors**: compiler is too old. Check
 `g++ --version`; install `g++-12` (and select via `CXX=g++-12`).
 
-**Preset not found** — CMake < 3.21 silently ignores `CMakePresets.json`. Same fix as
+**Preset not found**: CMake < 3.21 silently ignores `CMakePresets.json`. Same fix as
 above.
 
-**Linker errors about `pthread`** — shouldn't happen (Threads is linked via CMake), but if
+**Linker errors about `pthread`**: this should not happen (Threads is linked via CMake), but if
 a custom toolchain drops it, add `-DCMAKE_EXE_LINKER_FLAGS=-pthread`.
 
-**ASan preset fails to link with GCC** — use Clang for the sanitizer presets:
+**ASan preset fails to link with GCC**: use Clang for the sanitizer presets:
 `CC=clang CXX=clang++ cmake --preset asan`.

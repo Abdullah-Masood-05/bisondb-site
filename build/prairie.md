@@ -1,7 +1,7 @@
 # Building Prairie
 
 Prairie lives in [its own repository](https://github.com/Abdullah-Masood-05/Prairie) with
-its own toolchain — it does not participate in the engine's CMake build.
+its own toolchain; it does not participate in the engine's CMake build.
 
 ## Prerequisites
 
@@ -57,19 +57,19 @@ Quality gates: `bun run test` (Vitest), `bun run lint` (ESLint), and `cargo test
 
 ## Troubleshooting
 
-**"bisond binary not found" from copy-sidecar** — `BISONDB_BUILD_DIR` unset or pointing at
+**"bisond binary not found" from copy-sidecar**: `BISONDB_BUILD_DIR` is unset or points to
 a directory without `bisond(.exe)`. Build the engine first; the error message lists where
 it looked.
 
-**Local database opens fail with "did not become ready"** — the bundled sidecar can't
+**Local database opens fail with "did not become ready"**: the bundled sidecar cannot
 start. Run `src-tauri/bin/bisond --help` directly; a MinGW-built binary needs to be the
 *static* release build or its runtime DLLs are missing.
 
-**`failed to remove ... (os error 32)` during cargo build** — a file lock from antivirus or
+**`failed to remove ... (os error 32)` during cargo build**: a file lock from antivirus or
 an IDE's rust-analyzer on `target/`. Re-run; exclude `target/` from real-time scanning.
 
-**Linux: `webkit2gtk-4.1` not found** — install the dev packages above; on older distros
+**Linux: `webkit2gtk-4.1` not found**: install the dev packages above. On older distros
 Tauri 2 needs the 4.1 series, not 4.0.
 
-**File dialogs do nothing** — a Tauri *capabilities* problem; the shipped
+**File dialogs do nothing**: this is a Tauri *capabilities* problem; the shipped
 `capabilities/default.json` must include `dialog:default`. If you fork the config, keep it.

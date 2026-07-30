@@ -23,12 +23,12 @@ features:
   - icon:
       src: /icons/btree.svg
     title: A from-scratch B+Tree
-    details: 4 KB slotted pages, order-preserving key encoding, splits, lazy deletion, and crash recovery — no std::map, no storage libraries. Verified by 100k-operation model fuzzing against an oracle.
+    details: 4 KB slotted pages, order-preserving key encoding, splits, lazy deletion, and crash recovery, without std::map or third-party storage libraries. Verified by 100k-operation model fuzzing against an oracle.
     link: /architecture/btree
   - icon:
       src: /icons/shield.svg
     title: Crash-safe storage
-    details: An append-only record log is the single source of truth. Indexes are disposable caches with a dirty flag — any unclean shutdown rebuilds them from the log.
+    details: An append-only record log is the single source of truth. Indexes act as disposable caches with a dirty flag; any unclean shutdown triggers a rebuild from the log.
     link: /architecture/storage
   - icon:
       src: /icons/braces.svg
@@ -57,7 +57,7 @@ features:
 <span class="out">{ "built": true, "docsIndexed": 29470 }</span>
 <span class="prompt">bisondb&gt;</span> db.zips.find({pop: {$gt: 100000}}).explain()
 <span class="out">{ "plan": "index_range", "index": "pop", "docsExamined": 4, "docsReturned": 4 }</span>
-<span class="dim">index_range on "pop" — examined 4, returned 4</span></pre>
+<span class="dim">index_range on "pop": examined 4, returned 4</span></pre>
 </div>
 
 That `29470 → 4` collapse is the whole point of the [B+Tree](/architecture/btree).

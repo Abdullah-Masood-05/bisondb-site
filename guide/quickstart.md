@@ -1,7 +1,7 @@
 # Quickstart
 
 Download to first indexed query in about five minutes. No installer is required for the
-engine — the binaries are fully static.
+engine; the binaries are fully static.
 
 Prefer a GUI and no command line at all? Skip to [Prairie](/guide/prairie), which can run a
 local database for you with zero setup (no login, encrypted automatically).
@@ -10,7 +10,7 @@ local database for you with zero setup (no login, encrypted automatically).
 
 Download the latest release for your platform from the
 [releases page](https://github.com/Abdullah-Masood-05/Bisondb/releases/latest), or build
-[from source](/build/windows). Unpack the archive anywhere — you'll have `bisond`,
+[from source](/build/windows). Unpack the archive anywhere; you will have `bisond`,
 `bisonsh`, and `bisonc` (with `.exe` on Windows).
 
 ## 2. Create the first admin and start the server
@@ -45,7 +45,7 @@ You'll see the startup banner, then a `listening` line and structured per-reques
 ![bisond startup banner and request log](/screenshots/bisond-banner.png)
 
 `--quiet` suppresses the banner and the per-request logging. Without `--tls` the transport
-is **plain TCP** — fine for loopback, but credentials and data travel in clear text on a
+is **plain TCP** (fine for loopback), but credentials and data travel in clear text on a
 network. Add TLS in [step 6](#_6-optional-turn-on-tls).
 
 ::: tip No `--init-admin`?
@@ -59,7 +59,7 @@ and prints a one-time bootstrap token to stderr; create the first admin with
 ## 3. Open the shell and log in
 
 In a second terminal, connect as the admin you just created. You'll be **prompted** for the
-password (or set `BISONDB_PASSWORD` first) — never pass it on the command line:
+password (or set `BISONDB_PASSWORD` first); never pass it on the command line:
 
 ::: code-group
 
@@ -86,7 +86,7 @@ session. Full account management (create users, reset passwords, roles) is in th
 
 ## 4. Insert and query
 
-The shell accepts relaxed JSON — unquoted keys, single quotes, trailing commas:
+The shell accepts relaxed JSON, such as unquoted keys, single quotes, and trailing commas:
 
 ```
 bisondb> db.people.insertMany([
@@ -136,15 +136,15 @@ bisond --dir data/db --init-admin admin \
 bisonsh --connect localhost:27027 --tls-ca ./tls/cert.pem --username admin
 ```
 
-The shell banner then shows the connection as **encrypted & verified**. A plaintext-vs-TLS
+The shell banner then shows the connection as **encrypted and verified**. A plaintext-vs-TLS
 mismatch fails fast with a message telling you to add or drop `--tls`. The full verification
 matrix (system trust / CA file / fingerprint pin / insecure) is on the
 [Security page](/reference/security#tls).
 
 ## Next steps
 
-- Take the full [shell tour](/guide/shell) — every statement and the `auth` commands
-- Read the [Security guide](/reference/security) — roles, tokens, bootstrap, TLS modes
+- Take the full [shell tour](/guide/shell) to see every statement and the `auth` commands
+- Read the [Security guide](/reference/security) for details on roles, tokens, bootstrap, and TLS modes
 - Prefer a GUI? Install [Prairie](/guide/prairie)
 - Browse the complete [CLI reference](/reference/cli) for every flag of every tool
 - Import real data: `bisonc db import data\db zips zips.bson` works on any

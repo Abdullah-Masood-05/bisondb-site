@@ -4,7 +4,7 @@ Every flag of every tool, current as of **v1.2.x**. For the security model behin
 and TLS flags, see [Security](/reference/security); for the statement grammar, the
 [shell tour](/guide/shell).
 
-## bisond — the server
+## bisond: The server
 
 ```
 bisond --dir <dbdir> [--port N] [--bind ADDR] [--threads N] [--quiet]
@@ -24,13 +24,13 @@ bisond --dir <dbdir> [--port N] [--bind ADDR] [--threads N] [--quiet]
 
 ### Authentication
 
-Authentication is **enabled by default** — a connection must log in before any data command.
+Authentication is **enabled by default**. A connection must log in before any data command.
 
 | Flag | Default | Meaning |
 |---|---|---|
-| `--init-admin <user>` | — | on the **first run with no users**, create this admin from `$BISONDB_ADMIN_PASSWORD` |
+| `--init-admin <user>` | none | on the **first run with no users**, create this admin from `$BISONDB_ADMIN_PASSWORD` |
 | `--token-ttl <sec>` | `3600` | session-token lifetime in seconds |
-| `--no-auth` | off | **DANGER** — disable auth entirely; refuses any non-loopback bind and warns loudly. Dev only. |
+| `--no-auth` | off | **DANGER**: disables auth entirely. It refuses any non-loopback bind and warns loudly. This is for development only. |
 
 On first start with no users and no `--init-admin`, `bisond` prints a one-time **bootstrap
 token** to stderr; use it once to create the first admin (see
@@ -45,13 +45,13 @@ token** to stderr; use it once to create the first admin (see
 | `--tls-key <pem>` | PEM private key file |
 | `--tls-self-signed` | generate an in-memory self-signed cert at startup and print its **SHA-256 fingerprint** for client pinning (no `--tls-cert`/`--tls-key` needed) |
 
-Without `--tls` the transport is **unencrypted** — credentials and data travel in clear text.
+Without `--tls`, the transport is **unencrypted**. Credentials and data travel in clear text.
 Use `bisonc tls gen-cert` to make a cert/key pair. Private keys are never logged.
 
-Ctrl-C (or `SIGTERM`, or the loopback-only `shutdown` command) performs a graceful stop:
-drain connections, sync every collection, exit 0 — index files reopen clean.
+Ctrl-C (or `SIGTERM`, or the loopback-only `shutdown` command) performs a graceful stop. This
+drains connections, syncs every collection, and exits with 0. Index files will reopen clean.
 
-## bisonsh — the shell
+## bisonsh: The shell
 
 ```
 bisonsh [--connect host:port] [--no-color] [--no-banner]
@@ -68,7 +68,7 @@ bisonsh [--connect host:port] [--no-color] [--no-banner]
 | `--tls` | verify against the **system trust store** + hostname |
 | `--tls-ca <pem>` | trust a specific CA / self-signed cert (the usual self-signed path) |
 | `--tls-pin <sha256>` | accept exactly the cert with this fingerprint (pairs with `--tls-self-signed`) |
-| `--tls-insecure` | skip verification — **dev only**, warns; banner shows *ENCRYPTED but UNVERIFIED* |
+| `--tls-insecure` | disables verification for development. It prints a warning, and the banner shows *ENCRYPTED but UNVERIFIED* |
 | `--eval` | run statements (split on top-level `;`), exit 1 on first error |
 | `-f` | run a script file; piped stdin behaves the same |
 | `--no-color` / `--no-banner` | display toggles (also: `NO_COLOR`, `BISONDB_ASCII=1`) |
@@ -80,7 +80,7 @@ The shell never accepts a password as a command-line argument.
 
 Statement grammar and the in-shell `auth …` account commands: the [shell tour](/guide/shell).
 
-## bisonc — converter and database CLI
+## bisonc: Converter and database CLI
 
 ### File conversion (no server needed)
 
@@ -97,7 +97,7 @@ selects lossless Extended JSON so `to-json | to-bson` reproduces input byte-for-
 ### Database operations
 
 Embedded (opens `<dbdir>` directly, no server) **or** remote with `--connect host:port`
-(then the dbdir argument is ignored — pass `-`):
+(then the dbdir argument is ignored; pass `-` instead):
 
 ```
 bisonc db import       <dbdir> <coll> <file.bson|file.json>
@@ -112,7 +112,7 @@ bisonc status --connect host:port
 
 ::: warning Embedded mode and running servers
 Embedded mode opens the data directory in-process. Never point it at a directory a running
-`bisond` owns — there is no cross-process locking.
+`bisond` owns. There is no cross-process locking.
 :::
 
 ### Remote auth and TLS
@@ -136,14 +136,14 @@ BISONDB_PASSWORD=… bisonc db import - zips zips.bson \
 
 ```
 bisonc auth create-admin --dir <dbdir> --username <u>
-        Create an admin offline (password from $BISONDB_ADMIN_PASSWORD or prompt),
-        no server running — the recovery path if every admin credential is lost.
+        Create an admin offline (password from $BISONDB_ADMIN_PASSWORD or prompt)
+        without a running server. This provides a recovery path if every admin credential is lost.
 
 bisonc tls gen-cert --out-dir <dir> [--cn localhost] [--days 365]
         Write cert.pem + key.pem for `bisond --tls` (key file is mode 0600).
-        The recommended way to make a cert, over runtime --tls-self-signed.
+        This is the recommended way to generate a cert instead of using runtime --tls-self-signed.
 ```
 
 ## Exit codes (all three tools)
 
-`0` success · `1` usage error · `2` runtime/processing error.
+`0` success, `1` usage error, `2` runtime/processing error.

@@ -1,15 +1,14 @@
 # The wire protocol
 
-Everything that talks to `bisond` — bisonsh, bisonc, Prairie, your code — uses one
+Everything that talks to `bisond` (including `bisonsh`, `bisonc`, Prairie, and your code) uses one
 protocol: **length-prefixed BSON documents over TCP**, strictly one request then one
 response. It is small enough to implement a client in an afternoon; the
 [engine repo's docs/protocol.md](https://github.com/Abdullah-Masood-05/Bisondb/blob/main/docs/protocol.md)
 includes a from-scratch Python example.
 
-::: warning Authenticated (v2), but not encrypted
+::: warning Authenticated (v2)
 Since wire protocol **v2**, a connection must authenticate (`authenticate` /
-`authenticateToken`) before any data command. There is still **no TLS** — the transport is
-clear text. See the [Security page](/reference/security) for the auth model, roles, and
+`authenticateToken`) before any data command. The transport can run over **TLS** to encrypt the connection. See the [Security page](/reference/security) for the auth and TLS models, roles, and
 bootstrap flow; this page covers the framing and command set.
 :::
 
@@ -24,7 +23,7 @@ bootstrap flow; this page covers the framing and command set.
 
 - Valid payload range: **5 bytes to 16 MiB**. A violating length means the byte stream is
   unrecoverable: the server sends a best-effort error frame and closes.
-- A well-framed but *malformed* BSON payload is recoverable — the stream is still in sync,
+- A well-framed but *malformed* BSON payload is recoverable; the stream is still in sync,
   so the server answers with `ParseError`/`CorruptData` and keeps serving.
 - **No pipelining.** One outstanding request per connection; open more connections for
   parallelism. Default port **27027**.
@@ -44,7 +43,7 @@ Requests are `{cmd: "<name>", ...args}`. Success: `{ok: true, ...}`. Failure:
 | `NotFound` | referenced item absent |
 | `TooLarge` | frame or key size cap exceeded |
 | `ServerBusy` | connection limit reached (sent on accept, then close) |
-| `Internal` | anything unexpected — the catch-all that keeps workers alive |
+| `Internal` | anything unexpected (the catch-all that keeps workers alive) |
 
 ## Command catalog
 
@@ -52,12 +51,12 @@ Collection names match `[A-Za-z0-9_][A-Za-z0-9_-]{0,127}`.
 
 | Command | Request args | Success payload |
 |---|---|---|
-| `ping` | — | `{}` |
-| `serverStatus` | — | `name, version, protocolVersion: 2, security: { auth, tls:false, setupMode }`; authenticated callers also get `uptimeSec, connectionsCurrent, opCounters` |
-| `listCollections` | — | `collections: [string]` |
+| `ping` | none | `{}` |
+| `serverStatus` | none | `name, version, protocolVersion: 2, security: { auth, tls, setupMode }`; authenticated callers also get `uptimeSec, connectionsCurrent, opCounters` |
+| `listCollections` | none | `collections: [string]` |
 | `createCollection` | `coll` | `created: bool` (false = existed) |
 | `dropCollection` | `coll` | `dropped: bool` |
-| `dbStats` | — | `collections: [{name, count, fileSizeBytes, indexes}]` |
+| `dbStats` | none | `collections: [{name, count, fileSizeBytes, indexes}]` |
 | `insert` | `coll, documents: [...]` | `insertedIds: [ObjectId], insertedCount` |
 | `find` | `coll, filter, limit?, skip?` | `documents, count` (+ truncation, below) |
 | `deleteMany` | `coll, filter` | `deletedCount` |
@@ -67,7 +66,7 @@ Collection names match `[A-Za-z0-9_][A-Za-z0-9_-]{0,127}`.
 | `listIndexes` | `coll` | `indexes: [string]` |
 | `explain` | `coll, filter, limit?` | `plan: {plan, index?, docsExamined, docsReturned}` |
 | `compact` | `coll` | `stats: {documents}` |
-| `shutdown` | — | `{}`, then graceful stop (loopback peers only) |
+| `shutdown` | none | `{}`, then graceful stop (loopback peers only) |
 
 ### A worked example
 
@@ -90,7 +89,7 @@ Response:
 }
 ```
 
-## find truncation — cursors without cursors
+## find truncation: Cursors without cursors
 
 A response must fit one 16 MiB frame. When results don't fit, the server returns what does,
 plus:
@@ -101,13 +100,13 @@ plus:
 
 The client re-issues the same filter with `skip = skipNext` until `truncated` disappears.
 This is a deliberate simplification over server-side cursors: it is stateless on the
-server, trivially correct to implement, and its one weakness — results can shift if the
-collection mutates between batches — is acceptable for this database's scope. Both bundled
+server, is trivially correct to implement, and its one weakness is that results can shift if the
+collection mutates between batches, which is acceptable for this database's scope. Both bundled
 clients (C++ and Rust) reassemble transparently.
 
 ## Versioning
 
 `serverStatus.protocolVersion` is `2` (v2 added the [authentication](/reference/security)
-handshake). Clients should check it on connect — Prairie blocks its workspace with an
+handshake). Clients should check it on connect; Prairie blocks its workspace with an
 explanation when the number doesn't match, rather than failing on a later command. Pre-1.0
 servers don't report the field at all (treat as 0); v1 servers report `1` and have no auth.

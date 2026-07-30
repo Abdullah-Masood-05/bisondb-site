@@ -17,7 +17,7 @@ here hardest of all.
   [`benchmarks.json`](https://github.com/Abdullah-Masood-05/bisondb-site/blob/main/public/data/benchmarks.json)
   alongside the data, so charts and provenance travel together.
 
-## Insert throughput — the price of fsync
+## Insert throughput: The price of fsync
 
 <BenchChart chart="insert-throughput" />
 
@@ -34,22 +34,22 @@ Reproduce: `bisonbench insert --docs 100000 --batch 500` vs `--batch 1`.
 
 Note the **log scale**. A full scan reads every document and runs the matcher on each; the
 indexed query seeks the B+Tree and reads only matches. The gap widens linearly with
-collection size — this chart *is* the [B+Tree page](/architecture/btree) in one picture.
+collection size; this chart *is* the [B+Tree page](/architecture/btree) in one picture.
 
 Reproduce: `bisonbench query --filter '{pop:{$gte:40000}}' --with-index --without-index`.
 
-## docsExamined — the same story without a stopwatch
+## docsExamined: The same story without a stopwatch
 
 <BenchChart chart="docs-examined" />
 
 Latency depends on hardware; `docsExamined` doesn't. The planner's
-[explain output](/architecture/query-engine#explain-annotated) reports it for any query —
+[explain output](/architecture/query-engine#explain-annotated) reports it for any query;
 this chart is simply `explain` run on the ZIP dataset before and after `createIndex('pop')`,
 and you can reproduce it in the shell in four statements.
 
 ## What is deliberately *not* benchmarked
 
-Comparisons against MongoDB/SQLite/Postgres. They would be misleading in both directions —
+We do not benchmark comparisons against MongoDB, SQLite, or Postgres. They would be misleading in both directions;
 those engines do vastly more work per operation (transactions, WAL, statistics), and
 benchmark theater is the opposite of this project's point. The numbers here measure
 BisonDB against itself: the cost of durability and the value of an index.

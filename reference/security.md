@@ -2,11 +2,11 @@
 
 BisonDB offers an **encrypted, authenticated transport** for single-node use: **TLS** on the
 wire plus user/role **authentication**. It remains single-node (no replication), and the
-`--tls-insecure` / `--no-auth` escape hatches exist for development — so it is not a managed
+`--tls-insecure` / `--no-auth` escape hatches exist for development. BisonDB is not a managed
 service, but with TLS on, credentials and data are no longer exposed in clear text.
 
 ::: warning Turn TLS on
-TLS is **opt-in** (`--tls`). Without it the transport is plain TCP — clear text — which is
+TLS is **opt-in** (`--tls`). Without it the transport is plain TCP (clear text), which is
 fine for loopback development but never for a network. Authentication alone does **not**
 encrypt anything.
 :::
@@ -38,14 +38,14 @@ bisonsh --connect localhost:27027 --tls-ca ./tls/cert.pem --username admin
   TLS 1.2 (ECDHE + AES-GCM); TLS 1.3 is deferred (a config wrinkle in the current build).
 - **Server certificate.** `--tls-cert <pem>` + `--tls-key <pem>` for an operator-provided
   cert (real CA-signed or internal), or `--tls-self-signed` to generate one in memory at
-  startup — bisond prints its **SHA-256 fingerprint** to stderr so a client can pin it. The
+  startup, where bisond prints its **SHA-256 fingerprint** to stderr so a client can pin it. The
   offline `bisonc tls gen-cert` is the recommended setup (a key file on disk, mode 0600).
-- **Client verification** (secure by default — opt out is explicit and loud):
+- **Client verification** (secure by default, and opting out is explicit and loud):
   - default (`--tls`): verify the cert against the **OS trust store** *and* the hostname;
   - `--tls-ca <pem>`: trust a specific CA / self-signed cert (the usual self-signed path);
   - `--tls-pin <sha256>`: accept exactly the cert with this fingerprint (pairs with the
     fingerprint that `--tls-self-signed` prints);
-  - `--tls-insecure`: skip verification entirely — **dev only**, prints a warning, and the
+  - `--tls-insecure`: skip verification entirely. This is for development only, prints a warning, and the
     shell banner shows the connection as *ENCRYPTED but UNVERIFIED*.
 - Private keys are never logged. Connecting with the wrong transport (plaintext vs TLS)
   fails fast with a message telling you to add or drop `--tls`.
@@ -54,8 +54,8 @@ bisonsh --connect localhost:27027 --tls-ca ./tls/cert.pem --username admin
 
 Users are stored in a hidden system file, `<dbdir>/__auth.bsd`, that is **never** exposed
 through `listCollections`, `dbStats`, `find`, or export. Each record holds a username, the
-password hash + salt + KDF parameters, the user's roles, a creation timestamp, and a
-disabled flag — **never a plaintext password**.
+password hash, salt, KDF parameters, the user's roles, a creation timestamp, and a
+disabled flag (never a plaintext password).
 
 There are three roles, from least to most privileged:
 
@@ -72,14 +72,14 @@ resetting *another* user's password requires `admin`.
 
 ## How credentials are protected
 
-- **Passwords** are hashed with **Argon2id** — a memory-hard KDF (RFC 9106), via the vetted
-  [Monocypher](https://monocypher.org/) library — with a per-user random salt. The cost
+- **Passwords** are hashed with **Argon2id** (a memory-hard KDF defined in RFC 9106) via the vetted
+  [Monocypher](https://monocypher.org/) library, using a per-user random salt. The cost
   parameters are stored alongside each hash so they can be raised over time. Verification is
   constant-time.
 - **Session tokens** are 256-bit values from the OS CSPRNG (`BCryptGenRandom` on Windows,
   `/dev/urandom` on POSIX). The server stores only a **BLAKE2b-256 hash** of each token, so
   a leak of the auth state never yields a usable token. Tokens have a TTL (default 1 hour),
-  are checked on every command, and live only in memory — they are **lost on restart**, and
+  are checked on every command, and live only in memory. They are lost on server restart, and
   clients simply re-authenticate.
 - **No user enumeration.** A failed login returns a generic `AuthFailed` whether the username
   is unknown or the password is wrong, and the server spends comparable time in both cases.
@@ -95,13 +95,13 @@ ways:
    export BISONDB_ADMIN_PASSWORD='choose-a-strong-one'   # never a CLI arg
    bisond --dir data/db --init-admin admin
    ```
-2. **Setup mode** — start without `--init-admin` and bisond prints a one-time **bootstrap
+2. **Setup mode**: start without `--init-admin` and bisond prints a one-time **bootstrap
    token** to stderr. Use it exactly once to create the first admin (it must be an admin),
    after which setup mode ends and the token is void. In `bisonsh`:
    ```
    auth bootstrap admin
    ```
-3. **Offline tool** — create an admin directly against the data directory, no server running:
+3. **Offline tool**: create an admin directly against the data directory without a running server:
    ```bash
    bisonc auth create-admin --dir data/db --username admin
    ```
@@ -138,9 +138,9 @@ development.
 
 ## What's still missing
 
-- **TLS 1.3** — the transport is TLS 1.2 today; 1.3 is deferred behind an Mbed-TLS config
+- **TLS 1.3**: the transport is TLS 1.2 today; 1.3 is deferred behind an Mbed-TLS config
   wrinkle. (TLS 1.2 with ECDHE + AES-GCM is still secure.)
 - Persistent/long-lived API tokens (today's tokens are session-scoped and in-memory).
 - Per-collection or per-database access control (roles are server-wide).
 - Audit log shipping (auth events are logged locally, without secrets).
-- Single-node only — no replication or failover.
+- Single-node only, with no replication or failover.

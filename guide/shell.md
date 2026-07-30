@@ -1,8 +1,8 @@
-# The shell — bisonsh
+# The shell: bisonsh
 
 `bisonsh` is an interactive REPL with a Mongo-like statement grammar, multi-line input,
 history, colored output, and a scriptable batch mode. It talks to a running `bisond` over
-the wire protocol — it never opens data files directly.
+the wire protocol; it never opens data files directly.
 
 ```
 bisonsh [--connect host:port] [--no-color] [--no-banner]
@@ -32,7 +32,7 @@ bisondb> db.zips.find({pop: {$gte: 40000}}).limit(5).skip(10)
 returned 5 in 1.2 ms
 ```
 
-Chainable modifiers — `.limit(n)`, `.skip(n)`, `.explain()` — appear in any order, each at
+Chainable modifiers, such as `.limit(n)`, `.skip(n)`, and `.explain()`, can appear in any order, each at
 most once. After 100 documents the interactive pager prompts `-- more (Enter) / q --`.
 
 ```
@@ -45,7 +45,7 @@ bisondb> db.zips.count({state: 'NY'})
 ```
 bisondb> db.zips.find({pop: {$gte: 40000}}).explain()
 { "plan": "index_range", "index": "pop", "docsExamined": 1015, "docsReturned": 1015 }
-index_range on "pop" — examined 1015, returned 1015
+index_range on "pop": examined 1015, returned 1015
 ```
 
 The summary line is the planner's verdict in one sentence; the
@@ -62,7 +62,7 @@ bisondb> db.people.deleteMany({a: {$lt: 2}})
 { "deletedCount": 1 }
 ```
 
-Updates are `$set`-only — the protocol has no field-removal operator.
+Updates are `$set`-only, because the protocol has no field-removal operator.
 
 ### Indexes and admin
 
@@ -82,8 +82,8 @@ bisondb> exit
 
 ## Authentication (`auth`)
 
-A running `bisond` requires you to log in before any data command. Connect as a user — the
-password is **prompted** (no echo) or read from `$BISONDB_PASSWORD`; never pass it in argv:
+A running `bisond` requires you to log in before any data command. Connect as a user, where the
+password is **prompted** (no echo) or read from `$BISONDB_PASSWORD`. Never pass it in argv:
 
 ```bash
 bisonsh --connect 127.0.0.1:27027 --username admin     # prompts for the password
@@ -103,15 +103,15 @@ bisondb> auth bootstrap <user>       // first-run: create the first admin from t
 ```
 
 Roles are `read`, `readWrite`, and `admin`; a command you lack the capability for returns
-`E[Forbidden]`. The complete model — Argon2id hashing, tokens, first-run bootstrap, and the
-role→capability table — is on the [Security page](/reference/security).
+`E[Forbidden]`. The complete model, which includes Argon2id hashing, tokens, first-run bootstrap, and the
+role→capability table, is described on the [Security page](/reference/security).
 
 ### TLS
 
 To connect over an encrypted transport, add a TLS flag matching how the server's cert is
 trusted: `--tls` (system trust store), `--tls-ca <pem>` (a specific self-signed/CA cert),
-`--tls-pin <sha256>` (a pinned fingerprint), or `--tls-insecure` (dev only — the banner then
-shows *ENCRYPTED but UNVERIFIED*). The banner's transport line tells you which you got:
+`--tls-pin <sha256>` (a pinned fingerprint), or `--tls-insecure` (for development only, where the banner then
+shows *ENCRYPTED but UNVERIFIED*). The banner's transport line details which you received:
 
 ```bash
 bisonsh --connect localhost:27027 --tls-ca ./tls/cert.pem --username admin
@@ -148,7 +148,7 @@ cat queries.bsh | bisonsh
 ```
 
 Statements split on top-level `;` (semicolons inside strings or brackets are safe). The
-first failing statement stops execution with exit code 1 — usable in CI.
+first failing statement stops execution with exit code 1, which is usable in CI.
 
 ## History and display
 

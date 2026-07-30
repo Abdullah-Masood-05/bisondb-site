@@ -2,54 +2,54 @@
 
 ## Is this production-ready?
 
-**No, and it doesn't claim to be.** The honest version of that answer has two halves.
+**No, and it does not claim to be.** The honest version of that answer has two halves.
 
-What it *does* have: acknowledged writes survive crashes (append-only log + torn-tail
-recovery, tested), a fuzzed B+Tree (100k randomized operations against an oracle, multiple
+What it *does* have: acknowledged writes survive crashes using an append-only log with torn-tail
+recovery, a fuzzed B+Tree (100k randomized operations against an oracle, multiple
 seeds), a BSON codec validated against MongoDB's official corpus, sanitizer-clean test runs,
 and an 8-thread concurrency soak. That is more verification than most hobby databases.
 
-What it *doesn't* have is the part that makes databases production-grade: years of adverse
+What it *doesn't* have is what makes databases production grade: years of adverse
 workloads, operational tooling (backups, monitoring, online migration), and a second node to
-fail over to. It now has an **encrypted, authenticated transport** — TLS plus users/roles
-with Argon2id-hashed passwords and session tokens (see [Security](/reference/security)) — so
-it is no longer clear-text-only, but it is still **single-node**. "Production-ready" is
-earned in operations, not in test suites. Use it to learn, to prototype, to demo — keep
-anything you'd cry about in SQLite or Postgres.
+fail over to. It now has an **encrypted, authenticated transport** using TLS and user/role
+management with Argon2id-hashed passwords and session tokens (see [Security](/reference/security)). It
+is no longer clear-text-only, but it is still **single-node**. "Production-ready" is
+earned in operations, not in test suites. Use it to learn, prototype, or demo, but keep
+any critical data in SQLite or Postgres.
 
 ## Is it secure? Can I expose it to the internet?
 
 It now supports **TLS** (`--tls`) and **authentication**, so a single trusted node can be
-reasonably locked down. But it's still single-node with dev escape hatches
-(`--tls-insecure`, `--no-auth`), no audit pipeline, and only TLS 1.2 — so "expose it to the
-public internet" is still not the intended use. On a trusted LAN with TLS + auth on, it's
-fine. The full model (cert options, verification modes, roles, tokens, bootstrap) is on the
-[Security](/reference/security) page — **turn TLS on**, it's opt-in.
+reasonably locked down. But it is still single-node with development escape hatches
+(`--tls-insecure`, `--no-auth`), no audit pipeline, and only TLS 1.2. Exposing it to the
+public internet is not recommended. On a trusted LAN with TLS and authentication active, it is
+secure. The full model (cert options, verification modes, roles, tokens, bootstrap) is on the
+[Security](/reference/security) page; you must explicitly enable TLS since it is opt-in.
 
 ## Why not just use MongoDB?
 
-You should — for the things MongoDB is for. BisonDB exists for a different purpose: it's a
-complete, readable answer to *how does a database actually work*. Every component — codec,
-storage, B+Tree, planner, protocol — is small enough to read in a sitting and documented
+You should, for the tasks MongoDB is built for. BisonDB exists for a different purpose: it is a
+complete, readable answer to how a database actually works. Each component, including the codec,
+storage, B+Tree, planner, and protocol, is small enough to read in a single sitting. They are documented
 [on this site](/architecture/overview) at the level of byte offsets and lock orders. You
-can't read MongoDB's WiredTiger in an afternoon. Compatibility with BSON and `mongodump`
+cannot read MongoDB's WiredTiger in an afternoon. Compatibility with BSON and `mongodump`
 files is deliberate so that real data and real tools work while you explore.
 
 ## What would multi-node take?
 
-A sketch of the smallest honest version — single-leader replication:
+A sketch of the smallest honest version using single-leader replication:
 
 1. **Ship the log.** The append-only log is nearly a replication stream already; followers
    replay records exactly like crash recovery does today.
-2. **A position vocabulary** — (term, offset) so followers know where they are, plus a
+2. **A position vocabulary**: (term, offset) so followers know where they are, plus a
    handshake to catch up from any offset.
-3. **Leader election and the split-brain problem** — this is where it stops being a
-   weekend: you either implement Raft (log-shaped consensus, doable but subtle) or accept
+3. **Leader election and the split-brain problem**: this is where it stops being a simple
+   weekend project. You must either implement Raft (log-shaped consensus, which is doable but subtle) or accept
    manual failover.
-4. **Client routing** — writes to the leader, reads anywhere, with the consistency caveats
+4. **Client routing**: writes go to the leader, and reads go anywhere, with the consistency caveats
    that implies.
 
-Steps 1–2 fit the existing architecture surprisingly well; steps 3–4 are why distributed
+Steps 1 and 2 fit the existing architecture well, while steps 3 and 4 show why distributed
 databases are their own field.
 
 ## Why is the default port 27027?
@@ -58,19 +58,19 @@ MongoDB's is 27017. Close enough to be an homage, different enough to run both a
 
 ## Can I use the data files from another machine / OS?
 
-Yes — every on-disk integer is explicitly little-endian and the test suite round-trips the
+Yes. Every on-disk integer is explicitly little-endian, and the test suite round-trips the
 formats. Copy the data directory while the server is *stopped*. (An unclean copy is also
-fine in principle — indexes would just rebuild — but stop the server anyway.)
+fine in principle because indexes will rebuild, but stop the server anyway.)
 
 ## Why did my unindexed query get slower as data grew?
 
-Because it's a scan — by design it reads everything. Run `.explain()`, look at
-`docsExamined`, and create the index it suggests. That this is visible and fixable in two
+Because it is a scan, which reads everything by design. Run `.explain()`, look at
+`docsExamined`, and create the index it suggests. The fact that this is visible and fixable in two
 commands is the [whole demonstration](/architecture/query-engine).
 
 ## Does deleting documents shrink the files?
 
-Not immediately — deletes append tombstones and old versions linger. Run
+Not immediately. Deletes append tombstones, and old versions linger. Run
 `db.<coll>.compact()`. See [storage](/architecture/storage#compaction).
 
 ## Where do bug reports go?

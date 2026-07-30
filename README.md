@@ -32,7 +32,7 @@ bun run docs:preview
 ## Relationship to the source repos
 
 The engine repo's `docs/` (notably `protocol.md`) remains the **technical source of
-truth** — it versions with the code. This site is the expanded public version: same facts,
+truth** that versions with the code. This site is the expanded public version: same facts,
 more explanation, diagrams, and the download/landing experience. When behavior changes in
 the engine, update the engine docs first, then mirror here.
 
@@ -41,16 +41,16 @@ the engine, update the engine docs first, then mirror here.
 1. Run `bisonbench --json` on the release build (methodology on the benchmarks page).
 2. Replace `public/data/benchmarks.json` (keep the `meta` block accurate: version,
    hardware, date).
-3. The charts on `/benchmarks/` read that file at page load — no code changes needed.
+3. The charts on `/benchmarks/` read that file at page load, so no code changes are needed.
 
 ## Structure
 
-- `.vitepress/config.ts` — nav/sidebar/theme config (note `base: '/bisondb-site/'` for
+- `.vitepress/config.ts`: nav, sidebar, and theme config (note `base: '/bisondb-site/'` for
   project-pages hosting)
-- `.vitepress/theme/` — palette overrides + `DownloadSection.vue` (GitHub Releases API with
-  static fallback) and `BenchChart.vue` (Chart.js)
-- `guide/ build/ architecture/ reference/ benchmarks/ changelog/` — content
-- `public/` — logo, screenshots, benchmark data
+- `.vitepress/theme/`: palette overrides, the `DownloadSection.vue` component (using the GitHub Releases API with
+  a static fallback), and the `BenchChart.vue` component (using Chart.js)
+- `guide/ build/ architecture/ reference/ benchmarks/ changelog/`: content folders
+- `public/`: logo, screenshots, and benchmark data
 
 Deployment: pushes to `main` build and publish via GitHub Actions (`.github/workflows/`);
 PRs run the build (including dead-link checking) as a required check.
