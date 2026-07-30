@@ -12,7 +12,15 @@ export default withMermaid(
     lastUpdated: true,
     // Dead links are a build failure, not a warning.
     ignoreDeadLinks: false,
-    head: [['link', { rel: 'icon', type: 'image/png', href: '/bisondb-site/logo.png' }]],
+    head: [
+      ['link', { rel: 'icon', type: 'image/png', href: '/bisondb-site/logo.png' }],
+      ['meta', { property: 'og:image', content: 'https://abdullah-masood-05.github.io/bisondb-site/BisonDB_Site.PNG' }],
+      ['meta', { property: 'og:image:type', content: 'image/png' }],
+      ['meta', { property: 'og:image:width', content: '1200' }],
+      ['meta', { property: 'og:image:height', content: '630' }],
+      ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+      ['meta', { name: 'twitter:image', content: 'https://abdullah-masood-05.github.io/bisondb-site/BisonDB_Site.PNG' }]
+    ],
     appearance: 'dark',
     themeConfig: {
       logo: '/logo.png',
